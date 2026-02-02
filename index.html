@@ -314,6 +314,24 @@
             margin-right: 8px;
         }
 
+        .admin-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .admin-link a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-size: 13px;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .admin-link a:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
         @media (max-width: 480px) {
             .login-card {
                 padding: 30px 24px;
@@ -343,7 +361,7 @@
                     <label class="form-label">Email Address</label>
                     <div class="input-with-icon">
                         <i class="fas fa-envelope input-icon"></i>
-                        <input type="email" class="form-input" placeholder="name@example.com" required>
+                        <input type="email" class="form-input" id="email" placeholder="name@example.com" required>
                     </div>
                 </div>
 
@@ -382,7 +400,7 @@
 
                 <p class="signup-link">
                     Don't have an account?
-                    <a href="#" onclick="alert('Sign up feature will be implemented in Phase 3')">Create account</a>
+                    <a href="#" id="signupLink">Create account</a>
                 </p>
             </form>
 
@@ -390,17 +408,21 @@
                 <i class="fas fa-shield-alt"></i>
                 Your data is secured with enterprise-grade encryption. Never share your credentials.
             </div>
+
+            <div class="admin-link">
+                <a href="admin.html" target="_blank">Administrator Access</a>
+            </div>
         </div>
     </div>
 
     <script>
         // Password toggle
         const togglePassword = document.getElementById('togglePassword');
-        const password = document.getElementById('password');
+        const passwordInput = document.getElementById('password');
 
         togglePassword.addEventListener('click', function() {
-            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-            password.setAttribute('type', type);
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
             this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
         });
 
@@ -408,14 +430,48 @@
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Simple validation
-            const email = this.querySelector('input[type="email"]').value;
-            const password = this.querySelector('input[type="password"]').value;
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
             
             if (!email || !password) {
                 alert('Please fill in all fields');
                 return;
             }
+            
+            // Create or get user data
+            const userData = {
+                email: email,
+                name: email.split('@')[0],
+                createdAt: new Date().toISOString(),
+                lastLogin: new Date().toISOString(),
+                cashBalance: 50000.00,
+                assets: [
+                    { id: 'bitcoin', symbol: 'btc', name: 'Bitcoin', balance: 0.8245, price: 0 },
+                    { id: 'ethereum', symbol: 'eth', name: 'Ethereum', balance: 4.28, price: 0 },
+                    { id: 'tether', symbol: 'usdt', name: 'Tether', balance: 5820.40, price: 1.00 },
+                    { id: 'cardano', symbol: 'ada', name: 'Cardano', balance: 1500.50, price: 0 },
+                    { id: 'solana', symbol: 'sol', name: 'Solana', balance: 25.75, price: 0 },
+                    { id: 'ripple', symbol: 'xrp', name: 'XRP', balance: 1200.80, price: 0 }
+                ],
+                pendingTransactions: [],
+                recentActivities: []
+            };
+            
+            // Save user data to localStorage
+            localStorage.setItem('cryptoWallet_currentUser', JSON.stringify(userData));
+            
+            // Get all users from storage
+            let allUsers = JSON.parse(localStorage.getItem('cryptoWallet_users')) || {};
+            
+            // Update or add user
+            allUsers[email] = {
+                ...userData,
+                password: password, // Note: In real app, NEVER store plain passwords
+                isActive: true,
+                loginCount: (allUsers[email]?.loginCount || 0) + 1
+            };
+            
+            localStorage.setItem('cryptoWallet_users', JSON.stringify(allUsers));
             
             // Simulate login process
             const loginBtn = this.querySelector('.login-button');
@@ -426,8 +482,16 @@
             
             // Redirect to dashboard after delay
             setTimeout(() => {
-                window.location.href = 'dashboard.html';
-            }, 1500);
+                window.location.href = 'app.html#dashboard';
+            }, 1000);
+        });
+
+        // Signup link
+        document.getElementById('signupLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('email').value = 'user' + Math.floor(Math.random() * 1000) + '@example.com';
+            document.getElementById('password').value = 'password123';
+            alert('Test credentials filled. Click Sign In to continue.');
         });
 
         // Social login buttons
@@ -436,6 +500,13 @@
                 const type = this.classList.contains('google') ? 'Google' : 'MetaMask';
                 alert(`${type} authentication will be implemented in Phase 3`);
             });
+        });
+
+        // Auto-fill test user on page load (for demo)
+        window.addEventListener('DOMContentLoaded', function() {
+            // Uncomment for testing
+            // document.getElementById('email').value = 'test@cryptowallet.com';
+            // document.getElementById('password').value = 'test123';
         });
     </script>
 </body>
