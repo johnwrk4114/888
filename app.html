@@ -1840,7 +1840,6 @@
     </style>
 </head>
 <body>
-<body>
     <div class="dashboard-container">
         <!-- Sidebar -->
         <aside class="sidebar">
@@ -2110,7 +2109,7 @@
                                 <tbody id="marketTableBody">
                                     <tr>
                                         <td colspan="6" class="loading-spinner">
-                                            <i class="fas fa-spinner fa-spin"></i> Loading live market data...
+                                            <i class="fas fa-spinner fa-spin"></i> Loading market data...
                                         </td>
                                     </tr>
                                 </tbody>
@@ -2138,37 +2137,9 @@
                             </div>
                             
                             <div class="activity-list" id="recentActivityList">
-                                <div class="activity-item">
-                                    <div class="activity-icon success">
-                                        <i class="fas fa-arrow-down"></i>
-                                    </div>
-                                    <div class="activity-details">
-                                        <div class="activity-title">Received Bitcoin</div>
-                                        <div class="activity-meta">From: 0x1a2b...3c4d • 2 hours ago</div>
-                                    </div>
-                                    <div class="activity-amount positive">+0.05 BTC</div>
-                                </div>
-                                
-                                <div class="activity-item">
-                                    <div class="activity-icon sent">
-                                        <i class="fas fa-arrow-up"></i>
-                                    </div>
-                                    <div class="activity-details">
-                                        <div class="activity-title">Sent Ethereum</div>
-                                        <div class="activity-meta">To: 0x5e6f...7g8h • 5 hours ago</div>
-                                    </div>
-                                    <div class="activity-amount negative">-2.1 ETH</div>
-                                </div>
-                                
-                                <div class="activity-item">
-                                    <div class="activity-icon success">
-                                        <i class="fas fa-exchange-alt"></i>
-                                    </div>
-                                    <div class="activity-details">
-                                        <div class="activity-title">Exchange Completed</div>
-                                        <div class="activity-meta">BTC → ETH • Yesterday</div>
-                                    </div>
-                                    <div class="activity-amount neutral">Exchange</div>
+                                <div class="empty-state">
+                                    <i class="fas fa-history"></i>
+                                    <p>No recent activity</p>
                                 </div>
                             </div>
                         </div>
@@ -2177,14 +2148,13 @@
                         <div class="activity-section">
                             <div class="section-header">
                                 <h2 class="section-title">Pending Transactions</h2>
-                                <span class="pending-count" id="pendingCount">0 pending</span>
+                                <span class="pending-count" id="pendingCount">0</span>
                             </div>
                             
                             <div class="activity-list" id="pendingList">
                                 <div class="empty-state">
                                     <i class="fas fa-clock"></i>
                                     <p>No pending transactions</p>
-                                    <small>Transactions will appear here waiting for approval</small>
                                 </div>
                             </div>
                         </div>
@@ -2334,7 +2304,7 @@
                         </form>
                         
                         <div class="form-buttons">
-                            <button class="btn btn-secondary" onclick="window.location.href='#dashboard'">
+                            <button class="btn btn-secondary" onclick="window.location.hash='dashboard'">
                                 <i class="fas fa-arrow-left"></i> Back to Dashboard
                             </button>
                             <button class="btn btn-primary" onclick="kycNextStep(2)">
@@ -2517,7 +2487,7 @@
                             You will receive an email notification once your account is verified.
                         </p>
                         <div class="button-container">
-                            <button class="btn btn-primary" onclick="window.location.href='#dashboard'">
+                            <button class="btn btn-primary" onclick="window.location.hash='dashboard'">
                                 <i class="fas fa-home"></i> Back to Dashboard
                             </button>
                         </div>
@@ -2525,7 +2495,7 @@
                 </div>
             </div>
 
-            <!-- Profile Page (Personal Info + Bank Settings + Change Password) -->
+            <!-- Profile Page -->
             <div class="page-content" id="page-profile">
                 <div class="page-container">
                     <div class="section-header">
@@ -2542,7 +2512,7 @@
                         <div class="form-grid">
                             <div class="form-group">
                                 <label class="form-label">Full Name</label>
-                                <input type="text" class="form-input" id="profileFullName" placeholder="Your full name" readonly>
+                                <input type="text" class="form-input" id="profileFullName" placeholder="Your full name">
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Email Address</label>
@@ -2561,12 +2531,12 @@
                             </div>
                         </div>
                         
-                        <button class="btn btn-primary" id="updatePersonalInfo" style="margin-top: 15px;">
+                        <button class="btn btn-primary" id="updatePersonalInfo">
                             <i class="fas fa-save"></i> Update Personal Info
                         </button>
                     </div>
                     
-                    <!-- Bank Settings (Withdrawal) -->
+                    <!-- Bank Settings -->
                     <div class="page-card" style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius-lg); padding: 30px; margin-bottom: 30px;">
                         <h3 style="margin-bottom: 25px; display: flex; align-items: center; gap: 10px;">
                             <i class="fas fa-university" style="color: var(--success);"></i> Withdrawal Bank Settings
@@ -2605,10 +2575,6 @@
                         <button class="btn btn-primary" id="updateBankSettings">
                             <i class="fas fa-save"></i> Save Bank Details
                         </button>
-                        
-                        <div class="form-hint" style="margin-top: 15px;">
-                            <i class="fas fa-info-circle"></i> These bank details will be used for all withdrawal requests.
-                        </div>
                     </div>
                     
                     <!-- Change Password -->
@@ -2640,7 +2606,7 @@
                 </div>
             </div>
 
-            <!-- Inbox Page (Messages) -->
+            <!-- Inbox Page -->
             <div class="page-content" id="page-inbox">
                 <div class="page-container">
                     <div class="section-header">
@@ -2653,32 +2619,25 @@
                             <table class="data-table" style="width: 100%; border-collapse: collapse;">
                                 <thead>
                                     <tr>
-                                        <th style="padding: 15px; text-align: left; color: var(--gray); border-bottom: 1px solid var(--card-border);">From</th>
-                                        <th style="padding: 15px; text-align: left; color: var(--gray); border-bottom: 1px solid var(--card-border);">Subject</th>
-                                        <th style="padding: 15px; text-align: left; color: var(--gray); border-bottom: 1px solid var(--card-border);">Date</th>
-                                        <th style="padding: 15px; text-align: left; color: var(--gray); border-bottom: 1px solid var(--card-border);">Status</th>
-                                        <th style="padding: 15px; text-align: left; color: var(--gray); border-bottom: 1px solid var(--card-border);">Action</th>
+                                        <th style="padding: 15px; text-align: left; border-bottom: 1px solid var(--card-border);">From</th>
+                                        <th style="padding: 15px; text-align: left; border-bottom: 1px solid var(--card-border);">Subject</th>
+                                        <th style="padding: 15px; text-align: left; border-bottom: 1px solid var(--card-border);">Date</th>
+                                        <th style="padding: 15px; text-align: left; border-bottom: 1px solid var(--card-border);">Status</th>
+                                        <th style="padding: 15px; text-align: left; border-bottom: 1px solid var(--card-border);">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody id="inboxTable">
                                     <tr>
                                         <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">Security Team</td>
-                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">Important: Security Update Required</td>
+                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">Security Update Required</td>
                                         <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">2024-01-15</td>
                                         <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);"><span class="badge danger">Unread</span></td>
                                         <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);"><button class="view-btn" style="background: rgba(30,41,59,0.8); border: 1px solid var(--card-border); color: var(--light); padding: 6px 12px; border-radius: var(--radius-md); cursor: pointer;">View</button></td>
                                     </tr>
                                     <tr>
                                         <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">Support Team</td>
-                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">Your KYC Verification Status</td>
+                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">KYC Verification Update</td>
                                         <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">2024-01-14</td>
-                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);"><span class="badge success">Read</span></td>
-                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);"><button class="view-btn">View</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">System</td>
-                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">Welcome to CryptoWallet Pro!</td>
-                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">2024-01-10</td>
                                         <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);"><span class="badge success">Read</span></td>
                                         <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);"><button class="view-btn">View</button></td>
                                     </tr>
@@ -2688,7 +2647,8 @@
                     </div>
                 </div>
             </div>
-            <!-- Transfer Page (Deposit & Withdraw) -->
+
+            <!-- Transfer Page -->
             <div class="page-content" id="page-transfer">
                 <div class="page-container">
                     <div class="section-header">
@@ -2706,28 +2666,28 @@
                             <p style="color: var(--gray); margin-bottom: 15px;">Please transfer to the following bank account:</p>
                             
                             <div style="background: rgba(30, 41, 59, 0.6); padding: 20px; border-radius: var(--radius-md); margin-bottom: 20px;">
-                                <div style="display: flex; justify-content: space-between; margin-bottom: 10px; flex-wrap: wrap; gap: 10px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
                                     <span style="color: var(--gray);">Bank Name:</span>
-                                    <span style="font-weight: 600; color: var(--light);" id="depositBankName">Maybank</span>
+                                    <span style="font-weight: 600;" id="depositBankName">Maybank</span>
                                 </div>
-                                <div style="display: flex; justify-content: space-between; margin-bottom: 10px; flex-wrap: wrap; gap: 10px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
                                     <span style="color: var(--gray);">Account Number:</span>
-                                    <span style="font-weight: 600; color: var(--light);" id="depositAccountNumber">123456789012</span>
+                                    <span style="font-weight: 600;" id="depositAccountNumber">123456789012</span>
                                 </div>
-                                <div style="display: flex; justify-content: space-between; margin-bottom: 10px; flex-wrap: wrap; gap: 10px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
                                     <span style="color: var(--gray);">Account Holder:</span>
-                                    <span style="font-weight: 600; color: var(--light);" id="depositAccountHolder">CryptoWallet Pro Sdn Bhd</span>
+                                    <span style="font-weight: 600;" id="depositAccountHolder">CryptoWallet Pro Sdn Bhd</span>
                                 </div>
-                                <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+                                <div style="display: flex; justify-content: space-between;">
                                     <span style="color: var(--gray);">Reference:</span>
                                     <span style="font-weight: 600; color: var(--warning);" id="depositReference">CWP + Your Email</span>
                                 </div>
                             </div>
                             
                             <div style="background: rgba(14, 165, 233, 0.1); padding: 15px; border-radius: var(--radius-md); border-left: 4px solid var(--primary);">
-                                <p style="color: var(--light); font-size: 14px;">
+                                <p style="font-size: 14px;">
                                     <i class="fas fa-info-circle"></i> After making the transfer, please send the payment receipt to 
-                                    <strong>finance@cryptowallet.com</strong> or upload in Support Center. Your account will be credited within 1 hour.
+                                    <strong>finance@cryptowallet.com</strong>. Your account will be credited within 1 hour.
                                 </p>
                             </div>
                         </div>
@@ -2736,7 +2696,7 @@
                             <button class="btn btn-secondary" id="copyBankDetails">
                                 <i class="fas fa-copy"></i> Copy Bank Details
                             </button>
-                            <button class="btn btn-primary" onclick="window.location.href='#support'">
+                            <button class="btn btn-primary" onclick="window.location.hash='support'">
                                 <i class="fas fa-headset"></i> Contact Support
                             </button>
                         </div>
@@ -2789,7 +2749,7 @@
                         <div class="modal-info-box" style="margin-top: 20px;">
                             <div class="modal-info-row">
                                 <span class="modal-info-label">Available Balance:</span>
-                                <span class="modal-info-value" id="withdrawableBalance">$ 50,000.00</span>
+                                <span class="modal-info-value" id="withdrawableBalance">RM 0.00</span>
                             </div>
                             <div class="modal-info-row">
                                 <span class="modal-info-label">Withdrawal Fee:</span>
@@ -2810,8 +2770,7 @@
                                 <input type="checkbox" id="withdrawTerms">
                             </div>
                             <div class="terms-text">
-                                I confirm that the bank details provided are correct and I understand that withdrawals 
-                                are processed within 1-3 business days.
+                                I confirm that the bank details provided are correct.
                             </div>
                         </div>
                         
@@ -2827,105 +2786,44 @@
                 <div class="page-container">
                     <div class="section-header">
                         <h2 class="section-title">Transaction History</h2>
-                        <p class="page-subtitle">View all your deposits, withdrawals and trades</p>
+                        <p class="page-subtitle">View all your transactions</p>
                     </div>
                     
                     <div class="page-card" style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius-lg); padding: 30px;">
-                        <div style="display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap;">
-                            <input type="text" class="form-input" placeholder="Search transactions..." style="flex: 1; min-width: 200px;">
-                            <select class="form-input" style="width: 150px;">
-                                <option>All Types</option>
-                                <option>Deposit</option>
-                                <option>Withdrawal</option>
-                                <option>Trade</option>
-                                <option>Transfer</option>
-                            </select>
-                            <select class="form-input" style="width: 150px;">
-                                <option>All Status</option>
-                                <option>Completed</option>
-                                <option>Pending</option>
-                                <option>Failed</option>
-                            </select>
-                        </div>
-                        
                         <div class="table-responsive">
                             <table class="data-table" style="width: 100%; border-collapse: collapse;">
                                 <thead>
                                     <tr>
-                                        <th style="padding: 15px; text-align: left; color: var(--gray); border-bottom: 1px solid var(--card-border);">ID</th>
-                                        <th style="padding: 15px; text-align: left; color: var(--gray); border-bottom: 1px solid var(--card-border);">Type</th>
-                                        <th style="padding: 15px; text-align: left; color: var(--gray); border-bottom: 1px solid var(--card-border);">Amount</th>
-                                        <th style="padding: 15px; text-align: left; color: var(--gray); border-bottom: 1px solid var(--card-border);">Date</th>
-                                        <th style="padding: 15px; text-align: left; color: var(--gray); border-bottom: 1px solid var(--card-border);">Status</th>
-                                        <th style="padding: 15px; text-align: left; color: var(--gray); border-bottom: 1px solid var(--card-border);">Details</th>
+                                        <th style="padding: 15px; text-align: left;">ID</th>
+                                        <th style="padding: 15px; text-align: left;">Type</th>
+                                        <th style="padding: 15px; text-align: left;">Amount</th>
+                                        <th style="padding: 15px; text-align: left;">Date</th>
+                                        <th style="padding: 15px; text-align: left;">Status</th>
                                     </tr>
                                 </thead>
                                 <tbody id="transactionsTable">
                                     <tr>
-                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">TX789012</td>
-                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);"><span style="color: var(--success);">Deposit</span></td>
-                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">+0.5 BTC</td>
-                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">2024-01-15 14:30</td>
-                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);"><span class="badge success">Completed</span></td>
-                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);"><button class="view-btn" style="background: rgba(30,41,59,0.8); border: 1px solid var(--card-border); color: var(--light); padding: 6px 12px; border-radius: var(--radius-md); cursor: pointer;">View</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">TX789011</td>
-                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);"><span style="color: var(--danger);">Withdrawal</span></td>
-                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">-2.1 ETH</td>
-                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">2024-01-14 09:15</td>
-                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);"><span class="badge success">Completed</span></td>
-                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);"><button class="view-btn">View</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">TX789010</td>
-                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);"><span style="color: var(--primary);">Trade</span></td>
-                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">BTC → ETH</td>
-                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">2024-01-13 16:45</td>
-                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);"><span class="badge success">Completed</span></td>
-                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);"><button class="view-btn">View</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">TX789009</td>
-                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);"><span style="color: var(--success);">Deposit</span></td>
-                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">+5000 USDT</td>
-                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">2024-01-12 11:20</td>
-                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);"><span class="badge success">Completed</span></td>
-                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);"><button class="view-btn">View</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">TX789008</td>
-                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);"><span style="color: var(--danger);">Withdrawal</span></td>
-                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">-1000 USD</td>
-                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">2024-01-11 18:30</td>
-                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);"><span class="badge warning">Pending</span></td>
-                                        <td style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05);"><button class="view-btn">View</button></td>
+                                        <td colspan="5" style="text-align: center; padding: 40px;">
+                                            <i class="fas fa-exchange-alt"></i> No transactions yet
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
-                        </div>
-                        
-                        <div class="pagination" style="margin-top: 25px;">
-                            <button class="page-btn" disabled><i class="fas fa-chevron-left"></i></button>
-                            <span class="page-info">Page 1 of 3</span>
-                            <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Support Center (Without FAQ) -->
+            <!-- Support Center -->
             <div class="page-content" id="page-support">
                 <div class="page-container">
                     <div class="section-header">
                         <h2 class="section-title">Support Center</h2>
-                        <p class="page-subtitle">Get help and contact our support team</p>
+                        <p class="page-subtitle">Get help from our support team</p>
                     </div>
                     
                     <div class="page-card" style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius-lg); padding: 30px; margin-bottom: 30px;">
-                        <h3 style="margin-bottom: 25px; display: flex; align-items: center; gap: 10px;">
-                            <i class="fas fa-ticket-alt" style="color: var(--primary);"></i> Submit a Support Ticket
-                        </h3>
+                        <h3 style="margin-bottom: 25px;">Submit a Support Ticket</h3>
                         
                         <div class="form-group">
                             <label class="form-label">Subject</label>
@@ -2941,57 +2839,37 @@
                                 <option value="verification">KYC Verification</option>
                                 <option value="account">Account Issues</option>
                                 <option value="technical">Technical Issue</option>
-                                <option value="other">Other</option>
                             </select>
                         </div>
                         
                         <div class="form-group">
                             <label class="form-label">Description</label>
-                            <textarea class="form-input" rows="5" id="ticketDescription" placeholder="Please provide detailed information about your issue..."></textarea>
+                            <textarea class="form-input" rows="5" id="ticketDescription" placeholder="Please provide detailed information..."></textarea>
                         </div>
                         
-                        <div class="form-group">
-                            <label class="form-label">Attachment (Optional)</label>
-                            <input type="file" class="form-input" id="ticketAttachment">
-                            <small style="color: var(--gray);">Maximum file size: 10MB. Supported formats: JPG, PNG, PDF</small>
-                        </div>
-                        
-                        <button class="btn btn-primary" id="submitTicketBtn" style="margin-top: 20px;">
+                        <button class="btn btn-primary" id="submitTicketBtn">
                             <i class="fas fa-paper-plane"></i> Submit Ticket
                         </button>
                     </div>
                     
                     <div class="page-card" style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius-lg); padding: 30px;">
-                        <h3 style="margin-bottom: 25px; display: flex; align-items: center; gap: 10px;">
-                            <i class="fas fa-phone-alt" style="color: var(--success);"></i> Contact Information
-                        </h3>
+                        <h3 style="margin-bottom: 25px;">Contact Information</h3>
                         
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
                             <div style="text-align: center;">
-                                <div style="width: 50px; height: 50px; background: rgba(14,165,233,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;">
-                                    <i class="fas fa-envelope" style="color: var(--primary); font-size: 20px;"></i>
-                                </div>
-                                <h4 style="margin-bottom: 5px;">Email Support</h4>
+                                <i class="fas fa-envelope" style="font-size: 32px; color: var(--primary); margin-bottom: 10px;"></i>
+                                <h4>Email</h4>
                                 <p style="color: var(--gray);">support@cryptowallet.com</p>
-                                <p style="color: var(--gray); font-size: 13px;">Response within 24 hours</p>
                             </div>
-                            
                             <div style="text-align: center;">
-                                <div style="width: 50px; height: 50px; background: rgba(16,185,129,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;">
-                                    <i class="fas fa-phone" style="color: var(--success); font-size: 20px;"></i>
-                                </div>
-                                <h4 style="margin-bottom: 5px;">Phone Support</h4>
+                                <i class="fas fa-phone" style="font-size: 32px; color: var(--success); margin-bottom: 10px;"></i>
+                                <h4>Phone</h4>
                                 <p style="color: var(--gray);">+603 1234 5678</p>
-                                <p style="color: var(--gray); font-size: 13px;">Mon-Fri, 9am-6pm</p>
                             </div>
-                            
                             <div style="text-align: center;">
-                                <div style="width: 50px; height: 50px; background: rgba(245,158,11,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;">
-                                    <i class="fas fa-comment" style="color: var(--warning); font-size: 20px;"></i>
-                                </div>
-                                <h4 style="margin-bottom: 5px;">Live Chat</h4>
-                                <p style="color: var(--gray);">24/7 Support</p>
-                                <button class="btn btn-secondary" style="margin-top: 10px; padding: 8px 20px;">Start Chat</button>
+                                <i class="fas fa-comment" style="font-size: 32px; color: var(--warning); margin-bottom: 10px;"></i>
+                                <h4>Live Chat</h4>
+                                <button class="btn btn-secondary" style="margin-top: 10px;">Start Chat</button>
                             </div>
                         </div>
                     </div>
@@ -3000,15 +2878,14 @@
         </main>
     </div>
 
-    <!-- Toast Notification Container -->
+    <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
-        <script>
+
+    <script>
         // ==================== GLOBAL STATE ====================
         let marketData = [];
         let filteredMarketData = [];
         let userAssets = [];
-        let pendingTransactions = [];
-        let recentActivities = [];
         let cashBalance = 50000.00;
         let refreshInterval;
         let currentPage = 1;
@@ -3020,6 +2897,36 @@
         let selectedDocumentType = '';
         let uploadedFiles = { front: null, back: null };
         let personalData = {};
+
+        // ==================== INITIALIZATION ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, initializing app...');
+            
+            // Check for storage events (for cross-tab sync)
+            window.addEventListener('storage', function(e) {
+                if (e.key === 'cryptoWallet_currentUser' || e.key === 'cryptoWallet_users') {
+                    console.log('Storage changed, reloading user data...');
+                    loadCurrentUser();
+                    updateUserInfo();
+                    if (window.location.hash === '#account') {
+                        updateVerificationStatus(currentUser?.verificationStatus || 'pending');
+                    }
+                }
+            });
+            
+            initSPARouting();
+            
+            // Setup KYC checkbox
+            document.getElementById('agreeTerms')?.addEventListener('change', function() {
+                document.getElementById('submitKycBtn').disabled = !this.checked;
+            });
+            
+            // Set max date for DOB (18+)
+            const today = new Date();
+            const maxDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+            const dobInput = document.getElementById('dob');
+            if (dobInput) dobInput.max = maxDate.toISOString().split('T')[0];
+        });
 
         // ==================== SPA ROUTING ====================
         function initSPARouting() {
@@ -3059,8 +2966,6 @@
                     currentUser = JSON.parse(userData);
                     userAssets = currentUser.assets || [];
                     cashBalance = currentUser.cashBalance || 50000.00;
-                    pendingTransactions = currentUser.pendingTransactions || [];
-                    recentActivities = currentUser.recentActivities || [];
                     console.log('User loaded:', currentUser.email);
                     return true;
                 } catch (e) {
@@ -3121,7 +3026,6 @@
         function switchPage(page) {
             console.log('Switching to page:', page);
             
-            // Update active nav item
             document.querySelectorAll('.nav-item').forEach(item => {
                 item.classList.remove('active');
                 if (item.dataset.page === page) {
@@ -3129,26 +3033,24 @@
                 }
             });
             
-            // Hide all pages
             document.querySelectorAll('.page-content').forEach(pageEl => {
                 pageEl.classList.remove('active');
             });
             
-            // Show selected page
             const targetPage = document.getElementById(`page-${page}`);
             if (targetPage) {
                 targetPage.classList.add('active');
                 updatePageTitle(page);
                 window.location.hash = page;
                 
-                // Load page-specific data
                 if (page === 'dashboard') {
                     initDashboardPage();
                 } else if (page === 'transfer') {
                     loadBankSettings();
+                } else if (page === 'account') {
+                    // Refresh KYC status when viewing account page
+                    updateVerificationStatus(currentUser?.verificationStatus || 'pending');
                 }
-            } else {
-                console.error('Page not found:', page);
             }
         }
         
@@ -3172,18 +3074,7 @@
                 support: 'Support Center'
             };
             
-            const subtitles = {
-                dashboard: 'Welcome back! Here\'s your financial overview',
-                account: 'Complete verification to unlock all features',
-                profile: 'Manage your personal information and bank details',
-                inbox: 'Your messages and notifications',
-                transfer: 'Deposit funds or withdraw to your bank account',
-                transactions: 'View all your transaction history',
-                support: 'Get help and contact our support team'
-            };
-            
             document.getElementById('pageTitle').textContent = titles[page] || 'CryptoWallet Pro';
-            document.getElementById('pageSubtitle').textContent = subtitles[page] || '';
         }
 
         // ==================== DASHBOARD FUNCTIONS ====================
@@ -3191,14 +3082,13 @@
             console.log('Initializing dashboard...');
             initBalanceSection();
             initWalletActions();
-            loadMarketData(); // Will use simulated data
+            loadMarketData();
             updateAllBalances();
             
-            // Start auto-refresh
             if (refreshInterval) clearInterval(refreshInterval);
             refreshInterval = setInterval(() => {
                 loadMarketData();
-            }, 60000); // Refresh every minute
+            }, 60000);
         }
         
         function initBalanceSection() {
@@ -3221,23 +3111,19 @@
             }
             
             if (viewAllAssetsBtn) {
-                viewAllAssetsBtn.addEventListener('click', showAllAssetsModal);
+                viewAllAssetsBtn.addEventListener('click', () => showToast('View all assets coming soon!', 'info'));
             }
         }
         
         function loadMarketData() {
-            // Use simulated data instead of API
-            loadSimulatedMarketData();
-        }
-        
-        function loadSimulatedMarketData() {
+            // Simulated market data
             marketData = [
-                { id: 'bitcoin', symbol: 'btc', name: 'Bitcoin', current_price: 58464.16 + (Math.random() - 0.5) * 1000, price_change_percentage_24h: (Math.random() - 0.5) * 5, market_cap: 1140000000000, total_volume: 35000000000 },
-                { id: 'ethereum', symbol: 'eth', name: 'Ethereum', current_price: 3250.45 + (Math.random() - 0.5) * 50, price_change_percentage_24h: (Math.random() - 0.5) * 6, market_cap: 390000000000, total_volume: 18000000000 },
-                { id: 'tether', symbol: 'usdt', name: 'Tether', current_price: 1.00, price_change_percentage_24h: (Math.random() - 0.1) * 0.2, market_cap: 110000000000, total_volume: 70000000000 },
-                { id: 'cardano', symbol: 'ada', name: 'Cardano', current_price: 0.45 + (Math.random() - 0.5) * 0.05, price_change_percentage_24h: (Math.random() - 0.5) * 4, market_cap: 16000000000, total_volume: 800000000 },
-                { id: 'solana', symbol: 'sol', name: 'Solana', current_price: 142.30 + (Math.random() - 0.5) * 10, price_change_percentage_24h: (Math.random() - 0.5) * 7, market_cap: 62000000000, total_volume: 3200000000 },
-                { id: 'ripple', symbol: 'xrp', name: 'XRP', current_price: 0.62 + (Math.random() - 0.5) * 0.05, price_change_percentage_24h: (Math.random() - 0.5) * 3, market_cap: 34000000000, total_volume: 1500000000 }
+                { id: 'bitcoin', symbol: 'btc', name: 'Bitcoin', current_price: 58464.16, price_change_percentage_24h: 2.5, market_cap: 1140000000000, total_volume: 35000000000 },
+                { id: 'ethereum', symbol: 'eth', name: 'Ethereum', current_price: 3250.45, price_change_percentage_24h: -1.2, market_cap: 390000000000, total_volume: 18000000000 },
+                { id: 'tether', symbol: 'usdt', name: 'Tether', current_price: 1.00, price_change_percentage_24h: 0.01, market_cap: 110000000000, total_volume: 70000000000 },
+                { id: 'cardano', symbol: 'ada', name: 'Cardano', current_price: 0.45, price_change_percentage_24h: 3.2, market_cap: 16000000000, total_volume: 800000000 },
+                { id: 'solana', symbol: 'sol', name: 'Solana', current_price: 142.30, price_change_percentage_24h: 5.7, market_cap: 62000000000, total_volume: 3200000000 },
+                { id: 'ripple', symbol: 'xrp', name: 'XRP', current_price: 0.62, price_change_percentage_24h: -0.8, market_cap: 34000000000, total_volume: 1500000000 }
             ];
             
             filteredMarketData = [...marketData];
@@ -3245,7 +3131,6 @@
             renderMarketDataPage();
             updateAllBalances();
             updateLastUpdated();
-            showToast('Market data loaded', 'success');
         }
         
         function updateUserAssetsWithMarketPrices() {
@@ -3275,23 +3160,22 @@
             pageData.forEach(coin => {
                 const row = document.createElement('tr');
                 const priceChangeClass = coin.price_change_percentage_24h >= 0 ? 'positive' : 'negative';
-                const priceChangeIcon = coin.price_change_percentage_24h >= 0 ? 'fa-arrow-up' : 'fa-arrow-down';
                 
                 row.innerHTML = `
                     <td>
                         <div class="coin-cell">
                             <div class="coin-icon" style="background: ${getCoinColor(coin.symbol)}">${coin.symbol.toUpperCase().charAt(0)}</div>
                             <div>
-                                <div class="coin-name">${coin.name}</div>
-                                <div class="coin-symbol">${coin.symbol.toUpperCase()}</div>
+                                <div>${coin.name}</div>
+                                <div style="color: var(--gray); font-size: 12px;">${coin.symbol.toUpperCase()}</div>
                             </div>
                         </div>
                     </td>
-                    <td class="price-cell">$${coin.current_price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-                    <td><span class="price-change ${priceChangeClass}"><i class="fas ${priceChangeIcon}"></i> ${Math.abs(coin.price_change_percentage_24h).toFixed(2)}%</span></td>
+                    <td>$${coin.current_price.toLocaleString()}</td>
+                    <td><span class="price-change ${priceChangeClass}">${coin.price_change_percentage_24h > 0 ? '+' : ''}${coin.price_change_percentage_24h.toFixed(2)}%</span></td>
                     <td>$${formatLargeNumber(coin.market_cap)}</td>
                     <td>$${formatLargeNumber(coin.total_volume)}</td>
-                    <td><button class="buy-btn" onclick="showBuyModal('${coin.id}')">Buy</button></td>
+                    <td><button class="buy-btn" onclick="showToast('Buy feature coming soon!', 'info')">Buy</button></td>
                 `;
                 
                 tbody.appendChild(row);
@@ -3335,16 +3219,10 @@
             let totalUSD = 0;
             
             userAssets.forEach(asset => {
-                const price = asset.price || 0;
-                totalUSD += asset.balance * price;
+                totalUSD += asset.balance * (asset.price || 0);
             });
             
             document.getElementById('totalBalanceAmount').textContent = `$ ${totalUSD.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-            
-            const change = (Math.random() - 0.5) * 1000;
-            const isPositive = change >= 0;
-            document.getElementById('dailyChange').textContent = `${isPositive ? '+' : '-'}$${Math.abs(change).toFixed(2)}`;
-            document.getElementById('dailyChange').className = `change-amount ${isPositive ? 'positive' : 'negative'}`;
             
             updateCoinAssetsList();
             updateUSDTBalance();
@@ -3368,7 +3246,7 @@
                 .slice(0, 3);
             
             if (topAssets.length === 0) {
-                assetList.innerHTML = '<div style="color: var(--gray); text-align: center; padding: 20px;">No assets found</div>';
+                assetList.innerHTML = '<div style="color: var(--gray); text-align: center; padding: 20px;">No assets</div>';
                 return;
             }
             
@@ -3397,20 +3275,16 @@
             if (!usdtAsset) return;
             
             document.getElementById('usdtBalance').textContent = `${usdtAsset.balance.toFixed(2)} USDT`;
-            document.getElementById('usdtValue').textContent = `≈ $ ${usdtAsset.balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            document.getElementById('usdtValue').textContent = `≈ $ ${usdtAsset.balance.toLocaleString()}`;
         }
         
         function updateCashBalanceDisplay() {
             const cashBalanceSection = document.getElementById('cashBalanceSection');
             if (cashBalanceSection) {
                 cashBalanceSection.innerHTML = `
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
-                        <span style="color: var(--gray); font-size: 14px;">
-                            <i class="fas fa-money-bill-wave"></i> Cash Balance (USD)
-                        </span>
-                        <span style="font-weight: 600; color: var(--success);">
-                            $${cashBalance.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
-                        </span>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--card-border);">
+                        <span style="color: var(--gray);">Cash Balance (USD)</span>
+                        <span style="font-weight: 600; color: var(--success);">$${cashBalance.toLocaleString('en-US', {minimumFractionDigits: 2})}</span>
                     </div>
                 `;
             }
@@ -3419,8 +3293,7 @@
         function formatBalance(balance, symbol) {
             if (symbol === 'usdt') return balance.toFixed(2) + ' USDT';
             if (balance < 0.01) return balance.toFixed(6) + ' ' + symbol.toUpperCase();
-            if (balance < 1) return balance.toFixed(4) + ' ' + symbol.toUpperCase();
-            return balance.toFixed(2) + ' ' + symbol.toUpperCase();
+            return balance.toFixed(4) + ' ' + symbol.toUpperCase();
         }
         
         function initWalletActions() {
@@ -3441,11 +3314,9 @@
             
             if (generateBtn) {
                 generateBtn.addEventListener('click', function() {
-                    const newAddress = '0x' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+                    const newAddress = '0x' + Math.random().toString(36).substring(2, 15);
                     document.getElementById('walletLinkDisplay').textContent = newAddress;
-                    document.getElementById('walletLinkDisplay').style.color = '#10b981';
-                    if (copyBtn) copyBtn.disabled = false;
-                    showToast('New wallet address generated!', 'success');
+                    showToast('Address generated!', 'success');
                 });
             }
             
@@ -3453,37 +3324,24 @@
                 copyBtn.addEventListener('click', function() {
                     const address = document.getElementById('walletLinkDisplay').textContent;
                     if (!address || address.includes('Click')) {
-                        showToast('Please generate an address first', 'error');
+                        showToast('Generate an address first', 'error');
                         return;
                     }
                     
                     navigator.clipboard.writeText(address).then(() => {
                         this.classList.add('copied');
                         this.innerHTML = '<i class="fas fa-check"></i>';
-                        showToast('Address copied!', 'success');
+                        showToast('Copied!', 'success');
                         setTimeout(() => {
                             this.classList.remove('copied');
                             this.innerHTML = '<i class="fas fa-copy"></i>';
                         }, 2000);
-                    }).catch(() => {
-                        showToast('Failed to copy', 'error');
                     });
                 });
             }
             
-            const exchangeBtn = document.getElementById('exchangeBtn');
-            if (exchangeBtn) {
-                exchangeBtn.addEventListener('click', () => showToast('Exchange feature coming soon!', 'info'));
-            }
-            
-            const stakeBtn = document.getElementById('stakeBtn');
-            if (stakeBtn) {
-                stakeBtn.addEventListener('click', () => showToast('Staking feature coming soon!', 'info'));
-            }
-        }
-        
-        function showAllAssetsModal() {
-            showToast('View all assets feature coming soon!', 'info');
+            document.getElementById('exchangeBtn')?.addEventListener('click', () => showToast('Exchange coming soon!', 'info'));
+            document.getElementById('stakeBtn')?.addEventListener('click', () => showToast('Staking coming soon!', 'info'));
         }
 
         // ==================== KYC FUNCTIONS ====================
@@ -3497,79 +3355,59 @@
         }
         
         function goToKycStep(step) {
-            document.querySelectorAll('#page-account .form-section').forEach(section => {
-                section.classList.remove('active');
-            });
-            
+            document.querySelectorAll('#page-account .form-section').forEach(s => s.classList.remove('active'));
             document.getElementById(`kycStep${step}`).classList.add('active');
             
             document.querySelectorAll('#page-account .step').forEach(stepEl => {
                 stepEl.classList.remove('active', 'completed');
                 const stepNum = parseInt(stepEl.dataset.step);
-                
-                if (stepNum < step) {
-                    stepEl.classList.add('completed');
-                } else if (stepNum === step) {
-                    stepEl.classList.add('active');
-                }
+                if (stepNum < step) stepEl.classList.add('completed');
+                else if (stepNum === step) stepEl.classList.add('active');
             });
             
             currentKycStep = step;
-            
-            if (step === 3) {
-                updateKycSummary();
-            }
+            if (step === 3) updateKycSummary();
         }
         
         function validateKycStep(step) {
-            let isValid = true;
-            
             if (step === 1) {
-                document.querySelectorAll('#kycStep1 .form-error').forEach(e => e.style.display = 'none');
-                document.querySelectorAll('#kycStep1 .form-input').forEach(i => i.classList.remove('error'));
-                
                 const required = ['firstName', 'lastName', 'address', 'city', 'postalCode', 'country', 'phone', 'dob', 'nationality', 'idNumber'];
+                let isValid = true;
                 
                 required.forEach(fieldId => {
                     const field = document.getElementById(fieldId);
-                    const error = document.getElementById(`${fieldId}Error`);
-                    
                     if (!field.value.trim()) {
                         field.classList.add('error');
-                        if (error) {
-                            error.textContent = 'This field is required';
-                            error.style.display = 'block';
-                        }
                         isValid = false;
+                    } else {
+                        field.classList.remove('error');
                     }
                 });
                 
                 if (isValid) savePersonalData();
-            } else if (step === 2) {
-                document.getElementById('docTypeError').style.display = 'none';
-                document.getElementById('frontFileError').style.display = 'none';
-                document.getElementById('backFileError').style.display = 'none';
-                
+                return isValid;
+            }
+            
+            if (step === 2) {
                 if (!selectedDocumentType) {
-                    document.getElementById('docTypeError').textContent = 'Please select a document type';
+                    document.getElementById('docTypeError').textContent = 'Please select document type';
                     document.getElementById('docTypeError').style.display = 'block';
-                    isValid = false;
+                    return false;
                 }
-                
                 if (!uploadedFiles.front) {
                     document.getElementById('frontFileError').textContent = 'Please upload front side';
                     document.getElementById('frontFileError').style.display = 'block';
-                    isValid = false;
+                    return false;
                 }
-                
                 if (!uploadedFiles.back) {
                     document.getElementById('backFileError').textContent = 'Please upload back side';
                     document.getElementById('backFileError').style.display = 'block';
-                    isValid = false;
+                    return false;
                 }
+                return true;
             }
             
-            return isValid;
+            return true;
         }
         
         function savePersonalData() {
@@ -3578,7 +3416,6 @@
                 lastName: document.getElementById('lastName').value,
                 address: document.getElementById('address').value,
                 city: document.getElementById('city').value,
-                state: document.getElementById('state').value,
                 postalCode: document.getElementById('postalCode').value,
                 country: document.getElementById('country').value,
                 email: document.getElementById('kycEmail').value,
@@ -3591,19 +3428,10 @@
         
         function selectDocumentType(type) {
             selectedDocumentType = type;
-            
-            document.querySelectorAll('.document-type').forEach(doc => {
-                doc.classList.remove('selected');
-            });
-            
+            document.querySelectorAll('.document-type').forEach(d => d.classList.remove('selected'));
             document.querySelector(`.document-type[data-type="${type}"]`).classList.add('selected');
             
-            const typeNames = {
-                'passport': 'International Passport',
-                'nric': 'NRIC (MyKad)',
-                'driver-license': 'Driver License'
-            };
-            
+            const typeNames = { 'passport': 'Passport', 'nric': 'NRIC', 'driver-license': 'Driver License' };
             document.getElementById('selectedDocType').value = typeNames[type] || type;
         }
         
@@ -3613,7 +3441,6 @@
         
         function handleDrop(event, side) {
             event.preventDefault();
-            event.currentTarget.classList.remove('dragover');
             if (event.dataTransfer.files[0]) processFile(event.dataTransfer.files[0], side);
         }
         
@@ -3623,37 +3450,27 @@
         }
         
         function handleDragLeave(event) {
-            event.preventDefault();
             event.currentTarget.classList.remove('dragover');
         }
         
         function processFile(file, side) {
-            const validTypes = ['image/jpeg', 'image/png', 'application/pdf'];
-            if (!validTypes.includes(file.type)) {
-                alert('Please upload JPG, PNG, or PDF files only');
+            if (!file.type.match('image.*') && file.type !== 'application/pdf') {
+                alert('Please upload an image or PDF');
                 return;
             }
-            
             if (file.size > 5 * 1024 * 1024) {
-                alert('File size must be less than 5MB');
+                alert('File too large (max 5MB)');
                 return;
             }
             
             uploadedFiles[side] = file;
             
             const fileList = document.getElementById(`${side}FileList`);
-            const fileSize = file.size < 1024 * 1024 ? 
-                (file.size / 1024).toFixed(2) + ' KB' : 
-                (file.size / (1024 * 1024)).toFixed(2) + ' MB';
-            
             fileList.innerHTML = `
                 <div class="file-item">
                     <div class="file-info">
-                        <div class="file-icon"><i class="fas ${file.type.includes('image') ? 'fa-image' : 'fa-file-pdf'}"></i></div>
-                        <div>
-                            <div class="file-name">${file.name}</div>
-                            <div class="file-size">${fileSize}</div>
-                        </div>
+                        <i class="fas fa-file file-icon"></i>
+                        <span class="file-name">${file.name}</span>
                     </div>
                     <div class="file-remove" onclick="removeFile('${side}')"><i class="fas fa-times"></i></div>
                 </div>
@@ -3667,13 +3484,10 @@
         }
         
         function updateKycSummary() {
-            const dob = new Date(personalData.dob);
-            const formattedDOB = dob.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-            
             document.getElementById('summaryName').textContent = `${personalData.firstName} ${personalData.lastName}`;
-            document.getElementById('summaryAddress').textContent = `${personalData.address}, ${personalData.city}, ${personalData.country}`;
+            document.getElementById('summaryAddress').textContent = `${personalData.address}, ${personalData.city}`;
             document.getElementById('summaryContact').textContent = `${personalData.email} | ${personalData.phone}`;
-            document.getElementById('summaryDOB').textContent = formattedDOB;
+            document.getElementById('summaryDOB').textContent = new Date(personalData.dob).toLocaleDateString();
             document.getElementById('summaryNationality').textContent = personalData.nationality;
             
             const typeNames = { 'passport': 'Passport', 'nric': 'NRIC', 'driver-license': 'Driver License' };
@@ -3686,7 +3500,7 @@
         
         function submitKYC() {
             if (!document.getElementById('agreeTerms').checked) {
-                showToast('Please agree to the terms', 'error');
+                showToast('Please agree to terms', 'error');
                 return;
             }
             
@@ -3705,37 +3519,34 @@
                 currentUser.verificationStatus = 'pending';
                 currentUser.kycData = kycData;
                 saveUserData();
+                
+                // Trigger storage event for cross-tab sync
+                localStorage.setItem('cryptoWallet_kyc_update', Date.now().toString());
             }
             
             document.querySelectorAll('#page-account .form-section').forEach(s => s.classList.remove('active'));
             document.getElementById('kycComplete').classList.add('active');
             updateVerificationStatus('pending');
-            
-            showToast('Verification submitted successfully!', 'success');
+            showToast('Verification submitted!', 'success');
         }
 
         // ==================== PROFILE FUNCTIONS ====================
         document.getElementById('updatePersonalInfo')?.addEventListener('click', function() {
             if (!currentUser) return;
-            
             currentUser.phone = document.getElementById('profilePhone').value;
             currentUser.address = document.getElementById('profileAddress').value;
             currentUser.name = document.getElementById('profileFullName').value;
-            
             saveUserData();
             updateUserInfo();
-            showToast('Personal information updated!', 'success');
+            showToast('Personal info updated!', 'success');
         });
         
         document.getElementById('updateBankSettings')?.addEventListener('click', function() {
             if (!currentUser) return;
-            
             if (!currentUser.bankSettings) currentUser.bankSettings = {};
-            
             currentUser.bankSettings.holderName = document.getElementById('bankHolderName').value;
             currentUser.bankSettings.bankName = document.getElementById('bankName').value;
             currentUser.bankSettings.accountNumber = document.getElementById('bankAccountNumber').value;
-            
             saveUserData();
             showToast('Bank details saved!', 'success');
         });
@@ -3746,23 +3557,19 @@
             const confirm = document.getElementById('confirmPassword').value;
             
             if (!current || !newPass || !confirm) {
-                showToast('Please fill all password fields', 'error');
+                showToast('Fill all fields', 'error');
                 return;
             }
-            
             if (newPass !== confirm) {
-                showToast('New passwords do not match', 'error');
+                showToast('Passwords do not match', 'error');
                 return;
             }
-            
             if (newPass.length < 6) {
-                showToast('Password must be at least 6 characters', 'error');
+                showToast('Password too short', 'error');
                 return;
             }
             
-            // In a real app, verify current password with backend
-            showToast('Password changed successfully!', 'success');
-            
+            showToast('Password changed!', 'success');
             document.getElementById('currentPassword').value = '';
             document.getElementById('newPassword').value = '';
             document.getElementById('confirmPassword').value = '';
@@ -3786,27 +3593,14 @@
         }
         
         document.getElementById('copyBankDetails')?.addEventListener('click', function() {
-            const bankName = document.getElementById('depositBankName').textContent;
-            const accNo = document.getElementById('depositAccountNumber').textContent;
-            const holder = document.getElementById('depositAccountHolder').textContent;
-            const ref = document.getElementById('depositReference').textContent;
-            
-            const text = `Bank: ${bankName}\nAccount: ${accNo}\nHolder: ${holder}\nReference: ${ref}`;
-            
-            navigator.clipboard.writeText(text).then(() => {
-                showToast('Bank details copied!', 'success');
-            }).catch(() => {
-                showToast('Failed to copy', 'error');
-            });
+            const text = `Bank: ${document.getElementById('depositBankName').textContent}\nAccount: ${document.getElementById('depositAccountNumber').textContent}\nHolder: ${document.getElementById('depositAccountHolder').textContent}\nRef: ${document.getElementById('depositReference').textContent}`;
+            navigator.clipboard.writeText(text).then(() => showToast('Copied!', 'success'));
         });
         
         document.getElementById('withdrawAmount')?.addEventListener('input', function() {
             const amount = parseFloat(this.value) || 0;
-            const fee = 5;
-            const receive = amount - fee;
-            
-            document.getElementById('withdrawReceive').textContent = `RM ${receive.toFixed(2)}`;
-            document.getElementById('withdrawableBalance').textContent = `RM ${(cashBalance * 4.2).toFixed(2)}`; // Approx conversion
+            document.getElementById('withdrawReceive').textContent = `RM ${(amount - 5).toFixed(2)}`;
+            document.getElementById('withdrawableBalance').textContent = `RM ${(cashBalance * 4.2).toFixed(2)}`;
         });
         
         document.getElementById('withdrawTerms')?.addEventListener('change', function() {
@@ -3814,30 +3608,9 @@
         });
         
         document.getElementById('submitWithdrawBtn')?.addEventListener('click', function() {
-            const bank = document.getElementById('withdrawBankSelect').value;
-            const accNo = document.getElementById('withdrawAccountNumber').value;
-            const holder = document.getElementById('withdrawAccountHolder').value;
-            const amount = document.getElementById('withdrawAmount').value;
-            
-            if (!bank || !accNo || !holder || !amount) {
-                showToast('Please fill all fields', 'error');
-                return;
-            }
-            
-            if (amount < 50) {
-                showToast('Minimum withdrawal is RM 50', 'error');
-                return;
-            }
-            
             showToast('Withdrawal request submitted!', 'success');
-            
-            // Reset form
-            document.getElementById('withdrawBankSelect').value = '';
-            document.getElementById('withdrawAccountNumber').value = '';
-            document.getElementById('withdrawAccountHolder').value = '';
-            document.getElementById('withdrawAmount').value = '';
             document.getElementById('withdrawTerms').checked = false;
-            document.getElementById('submitWithdrawBtn').disabled = true;
+            this.disabled = true;
         });
 
         // ==================== SUPPORT FUNCTIONS ====================
@@ -3847,12 +3620,11 @@
             const description = document.getElementById('ticketDescription').value;
             
             if (!subject || !category || !description) {
-                showToast('Please fill all required fields', 'error');
+                showToast('Please fill all fields', 'error');
                 return;
             }
             
-            showToast('Support ticket submitted! We\'ll respond within 24 hours.', 'success');
-            
+            showToast('Ticket submitted!', 'success');
             document.getElementById('ticketSubject').value = '';
             document.getElementById('ticketCategory').value = '';
             document.getElementById('ticketDescription').value = '';
@@ -3861,30 +3633,21 @@
         // ==================== UTILITY FUNCTIONS ====================
         function showToast(message, type = 'info') {
             const container = document.getElementById('toastContainer');
-            if (!container) return;
-            
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
-            
-            const icons = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
-            
-            toast.innerHTML = `<span style="font-size: 18px;">${icons[type] || icons.info}</span><span>${message}</span>`;
+            const icons = { success: '✅', error: '❌', info: 'ℹ️' };
+            toast.innerHTML = `<span>${icons[type] || 'ℹ️'}</span><span>${message}</span>`;
             container.appendChild(toast);
-            
             setTimeout(() => {
                 toast.style.opacity = '0';
-                toast.style.transform = 'translateX(100%)';
                 setTimeout(() => toast.remove(), 300);
-            }, 4000);
+            }, 3000);
         }
         
         function saveUserData() {
             if (currentUser) {
                 currentUser.assets = userAssets;
                 currentUser.cashBalance = cashBalance;
-                currentUser.pendingTransactions = pendingTransactions;
-                currentUser.recentActivities = recentActivities;
-                
                 localStorage.setItem('cryptoWallet_currentUser', JSON.stringify(currentUser));
                 
                 let allUsers = JSON.parse(localStorage.getItem('cryptoWallet_users')) || {};
@@ -3895,32 +3658,27 @@
             }
         }
 
-        // ==================== INITIALIZATION ====================
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM loaded, initializing app...');
-            initSPARouting();
-            
-            // Setup KYC checkbox
-            document.getElementById('agreeTerms')?.addEventListener('change', function() {
-                document.getElementById('submitKycBtn').disabled = !this.checked;
-            });
-            
-            // Set max date for DOB (18+)
-            const today = new Date();
-            const maxDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
-            const dobInput = document.getElementById('dob');
-            if (dobInput) dobInput.max = maxDate.toISOString().split('T')[0];
-        });
-
         // ==================== LOGOUT ====================
         document.getElementById('logoutBtn').addEventListener('click', function() {
-            if (confirm('Are you sure you want to logout?')) {
+            if (confirm('Logout?')) {
                 showToast('Logging out...', 'info');
                 if (refreshInterval) clearInterval(refreshInterval);
                 localStorage.removeItem('cryptoWallet_currentUser');
                 setTimeout(() => window.location.href = 'index.html', 1000);
             }
         });
+
+        // Make functions global
+        window.kycNextStep = kycNextStep;
+        window.kycPrevStep = kycPrevStep;
+        window.selectDocumentType = selectDocumentType;
+        window.handleFileSelect = handleFileSelect;
+        window.handleDrop = handleDrop;
+        window.handleDragOver = handleDragOver;
+        window.handleDragLeave = handleDragLeave;
+        window.removeFile = removeFile;
+        window.submitKYC = submitKYC;
+        window.showToast = showToast;
     </script>
 </body>
 </html>
