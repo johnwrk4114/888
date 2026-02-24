@@ -6,7 +6,6 @@
     <title>CryptoWallet Pro | Admin Panel</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ===== 完整样式 (与之前相同，保证显示正常) ===== */
         * {
             margin: 0;
             padding: 0;
@@ -29,7 +28,6 @@
             --card-bg: rgba(30, 41, 59, 0.8);
             --card-border: rgba(255, 255, 255, 0.1);
             --gradient-primary: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
-            --gradient-danger: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
             --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.4);
             --shadow-md: 0 10px 20px rgba(0, 0, 0, 0.3);
             --radius-md: 12px;
@@ -79,11 +77,6 @@
             margin-bottom: 5px;
         }
 
-        .login-header p {
-            color: var(--gray);
-            font-size: 14px;
-        }
-
         .form-group {
             margin-bottom: 20px;
         }
@@ -95,7 +88,9 @@
             font-size: 14px;
         }
 
-        .form-group input {
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
             width: 100%;
             padding: 12px;
             background: rgba(30, 41, 59, 0.8);
@@ -105,7 +100,8 @@
             font-size: 14px;
         }
 
-        .form-group input:focus {
+        .form-group input:focus,
+        .form-group select:focus {
             outline: none;
             border-color: var(--primary);
         }
@@ -129,6 +125,14 @@
         .admin-btn:hover {
             background: var(--primary);
             color: white;
+        }
+
+        .admin-btn.success {
+            background: var(--success);
+        }
+
+        .admin-btn.danger {
+            background: var(--danger);
         }
 
         .admin-container {
@@ -348,11 +352,6 @@
             margin-bottom: 5px;
         }
 
-        .stat-change {
-            color: var(--success);
-            font-size: 13px;
-        }
-
         .table-container {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
@@ -408,6 +407,11 @@
         .badge.danger {
             background: rgba(239, 68, 68, 0.1);
             color: var(--danger);
+        }
+
+        .badge.info {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--info);
         }
 
         .action-buttons {
@@ -492,7 +496,7 @@
             background: var(--card-bg);
             border-radius: var(--radius-lg);
             width: 90%;
-            max-width: 500px;
+            max-width: 600px;
             border: 1px solid var(--card-border);
             box-shadow: var(--shadow-lg);
             max-height: 90vh;
@@ -505,6 +509,10 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: sticky;
+            top: 0;
+            background: var(--card-bg);
+            z-index: 10;
         }
 
         .modal-header h3 {
@@ -540,6 +548,35 @@
             display: flex;
             justify-content: flex-end;
             gap: 10px;
+            position: sticky;
+            bottom: 0;
+            background: var(--card-bg);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            color: var(--light);
+            margin: 20px 0 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .asset-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .asset-row input {
+            flex: 1;
         }
 
         .toast-container {
@@ -581,15 +618,15 @@
         }
 
         @media (max-width: 1200px) {
+            .admin-main {
+                margin-left: 0;
+            }
             .admin-sidebar {
                 transform: translateX(-100%);
                 transition: transform 0.3s;
             }
             .admin-sidebar.active {
                 transform: translateX(0);
-            }
-            .admin-main {
-                margin-left: 0;
             }
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -602,6 +639,9 @@
             }
             .filter-bar {
                 flex-direction: column;
+            }
+            .form-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -644,7 +684,7 @@
                 </div>
                 <div class="admin-info">
                     <h4>Administrator</h4>
-                    <p>Super Admin</p>
+                    <p>Full Access</p>
                 </div>
             </div>
 
@@ -668,6 +708,13 @@
                             <i class="fas fa-id-card"></i>
                             <span>KYC Verification</span>
                             <span class="nav-badge" id="pendingKycBadge">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" data-page="transactions">
+                        <a class="nav-link">
+                            <i class="fas fa-exchange-alt"></i>
+                            <span>Transactions</span>
+                            <span class="nav-badge" id="pendingTxBadge">0</span>
                         </a>
                     </li>
                     <li class="nav-item" data-page="bank">
@@ -713,8 +760,8 @@
                             <div class="stat-value" id="pendingKycCount">0</div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-title"><i class="fas fa-check-circle"></i> Verified Users</div>
-                            <div class="stat-value" id="verifiedUsers">0</div>
+                            <div class="stat-title"><i class="fas fa-hourglass-half"></i> Pending Tx</div>
+                            <div class="stat-value" id="pendingTxCount">0</div>
                         </div>
                         <div class="stat-card">
                             <div class="stat-title"><i class="fas fa-dollar-sign"></i> Total Balance</div>
@@ -732,10 +779,30 @@
                                     <th>Joined</th>
                                     <th>Status</th>
                                     <th>Balance</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody id="recentUsersTable">
-                                <tr><td colspan="5" style="text-align: center;">Loading...</td></tr>
+                                <tr><td colspan="6" style="text-align: center;">Loading...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-container">
+                        <h3>Recent Transactions</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>User</th>
+                                    <th>Type</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentTransactionsTable">
+                                <tr><td colspan="6" style="text-align: center;">No transactions</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -750,7 +817,7 @@
                             <select class="filter-select" id="userFilter">
                                 <option value="all">All Users</option>
                                 <option value="verified">Verified</option>
-                                <option value="pending">Pending</option>
+                                <option value="pending">Pending KYC</option>
                             </select>
                         </div>
                     </div>
@@ -761,8 +828,8 @@
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Joined</th>
-                                    <th>Status</th>
-                                    <th>Balance</th>
+                                    <th>KYC Status</th>
+                                    <th>Cash Balance</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -778,8 +845,8 @@
                     <div class="section-header">
                         <h2>KYC Verification</h2>
                         <select class="filter-select" id="kycFilter">
-                            <option value="pending">Pending</option>
-                            <option value="all">All</option>
+                            <option value="pending">Pending Only</option>
+                            <option value="all">All Submissions</option>
                         </select>
                     </div>
                     <div class="table-container">
@@ -796,6 +863,35 @@
                             </thead>
                             <tbody id="kycTableBody">
                                 <tr><td colspan="6" style="text-align: center;">Loading...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Transactions Page -->
+                <div class="page-section" id="page-transactions">
+                    <div class="section-header">
+                        <h2>Transaction Management</h2>
+                        <select class="filter-select" id="txFilter">
+                            <option value="pending">Pending Only</option>
+                            <option value="all">All Transactions</option>
+                        </select>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>User</th>
+                                    <th>Type</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="transactionsTableBody">
+                                <tr><td colspan="7" style="text-align: center;">No transactions</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -826,6 +922,78 @@
         </main>
     </div>
 
+    <!-- User Edit Modal (Full Control) -->
+    <div class="modal-overlay" id="userEditModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Edit User - <span id="editUserEmail"></span></h3>
+                <button class="modal-close" onclick="closeModal('userEditModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="section-title">Basic Information</div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="editName" class="filter-input">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="text" id="editPhone" class="filter-input">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <input type="text" id="editAddress" class="filter-input">
+                </div>
+
+                <div class="section-title">Financial Information</div>
+                <div class="form-group">
+                    <label>Cash Balance (USD)</label>
+                    <input type="number" id="editCashBalance" class="filter-input" step="0.01">
+                </div>
+
+                <div class="section-title">Crypto Assets</div>
+                <div id="editAssetsContainer"></div>
+
+                <div class="section-title">Bank Settings</div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Bank Name</label>
+                        <select id="editBankName" class="filter-input">
+                            <option value="">Select Bank</option>
+                            <option value="Maybank">Maybank</option>
+                            <option value="CIMB Bank">CIMB Bank</option>
+                            <option value="Public Bank">Public Bank</option>
+                            <option value="RHB Bank">RHB Bank</option>
+                            <option value="Hong Leong Bank">Hong Leong Bank</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Account Number</label>
+                        <input type="text" id="editBankAccount" class="filter-input">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Account Holder</label>
+                    <input type="text" id="editBankHolder" class="filter-input">
+                </div>
+
+                <div class="section-title">KYC Status</div>
+                <div class="form-group">
+                    <select id="editKycStatus" class="filter-input">
+                        <option value="pending">Pending</option>
+                        <option value="verified">Verified</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="admin-btn" onclick="closeModal('userEditModal')">Cancel</button>
+                <button class="admin-btn success" id="saveUserChanges">Save All Changes</button>
+            </div>
+        </div>
+    </div>
+
     <!-- KYC Modal -->
     <div class="modal-overlay" id="kycModal">
         <div class="modal">
@@ -836,8 +1004,24 @@
             <div class="modal-body" id="kycModalBody">Loading...</div>
             <div class="modal-footer">
                 <button class="admin-btn" onclick="closeModal('kycModal')">Close</button>
-                <button class="admin-btn" id="approveKycBtn" style="background: var(--success);" onclick="approveKyc()">Approve</button>
-                <button class="admin-btn" id="rejectKycBtn" style="background: var(--danger);" onclick="rejectKyc()">Reject</button>
+                <button class="admin-btn success" id="approveKycBtn" onclick="approveKyc()">Approve</button>
+                <button class="admin-btn danger" id="rejectKycBtn" onclick="rejectKyc()">Reject</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transaction Modal -->
+    <div class="modal-overlay" id="transactionModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Transaction Details</h3>
+                <button class="modal-close" onclick="closeModal('transactionModal')">&times;</button>
+            </div>
+            <div class="modal-body" id="transactionModalBody">Loading...</div>
+            <div class="modal-footer">
+                <button class="admin-btn" onclick="closeModal('transactionModal')">Close</button>
+                <button class="admin-btn success" onclick="approveTransaction()">Approve</button>
+                <button class="admin-btn danger" onclick="rejectTransaction()">Reject</button>
             </div>
         </div>
     </div>
@@ -846,47 +1030,48 @@
     <div class="toast-container" id="toastContainer"></div>
 
     <script>
-        // ==================== 全局变量 ====================
+        // ==================== GLOBAL STATE ====================
         let allUsers = {};
+        let allTransactions = [];
+        let currentEditEmail = null;
         let currentKycEmail = null;
+        let currentTxId = null;
         const ADMIN_PASSWORD = '131419';
 
-        // ==================== 初始化 ====================
+        // Default assets structure
+        const DEFAULT_ASSETS = [
+            { id: 'bitcoin', symbol: 'btc', name: 'Bitcoin', balance: 0 },
+            { id: 'ethereum', symbol: 'eth', name: 'Ethereum', balance: 0 },
+            { id: 'tether', symbol: 'usdt', name: 'Tether', balance: 0 },
+            { id: 'cardano', symbol: 'ada', name: 'Cardano', balance: 0 },
+            { id: 'solana', symbol: 'sol', name: 'Solana', balance: 0 }
+        ];
+
+        // ==================== INITIALIZATION ====================
         document.addEventListener('DOMContentLoaded', function() {
-            // 监听其他标签页的更新
             window.addEventListener('storage', function(e) {
                 if (e.key === 'cryptoWallet_users' || e.key === 'cryptoWallet_kyc_update') {
                     loadAllData();
                 }
             });
             
-            // 加载银行设置
-            const settings = JSON.parse(localStorage.getItem('cryptoWallet_bankSettings')) || {
-                bankName: 'Maybank',
-                accountNumber: '123456789012',
-                accountHolder: 'CryptoWallet Pro Sdn Bhd'
-            };
-            
-            document.getElementById('bankName').value = settings.bankName;
-            document.getElementById('bankAccountNumber').value = settings.accountNumber;
-            document.getElementById('bankAccountHolder').value = settings.accountHolder;
+            loadBankSettings();
         });
 
-        // ==================== 登录 ====================
+        // ==================== LOGIN ====================
         document.getElementById('loginBtn').addEventListener('click', function() {
             if (document.getElementById('adminPassword').value === ADMIN_PASSWORD) {
                 document.getElementById('loginPage').style.display = 'none';
                 document.getElementById('adminPanel').classList.add('active');
-                initializeData(); // 初始化数据
+                initializeData();
                 showToast('Login successful', 'success');
             } else {
                 showToast('Invalid password', 'error');
             }
         });
 
-        // ==================== 数据初始化 ====================
+        // ==================== DATA INITIALIZATION ====================
         function initializeData() {
-            // 尝试加载现有数据
             const usersData = localStorage.getItem('cryptoWallet_users');
             if (usersData) {
                 try {
@@ -896,19 +1081,33 @@
                 }
             }
             
-            // 如果没有数据，创建示例数据
             if (Object.keys(allUsers).length === 0) {
                 createSampleData();
             }
             
-            // 确保每个用户都有必要字段
+            // Ensure all users have required fields
             Object.values(allUsers).forEach(user => {
-                if (!user.verificationStatus) user.verificationStatus = 'pending';
-                if (!user.cashBalance) user.cashBalance = 10000;
-                if (!user.createdAt) user.createdAt = new Date().toISOString();
+                if (!user.assets) user.assets = JSON.parse(JSON.stringify(DEFAULT_ASSETS));
+                if (!user.bankSettings) user.bankSettings = {};
+                if (!user.pendingTransactions) user.pendingTransactions = [];
+                if (!user.phone) user.phone = '';
+                if (!user.address) user.address = '';
             });
             
-            // 保存并更新UI
+            // Collect all transactions
+            allTransactions = [];
+            Object.entries(allUsers).forEach(([email, user]) => {
+                if (user.pendingTransactions) {
+                    user.pendingTransactions.forEach(tx => {
+                        allTransactions.push({
+                            ...tx,
+                            userEmail: email,
+                            userName: user.name || email
+                        });
+                    });
+                }
+            });
+            
             localStorage.setItem('cryptoWallet_users', JSON.stringify(allUsers));
             loadAllData();
         }
@@ -921,9 +1120,34 @@
                     name: "Alex Johnson",
                     firstName: "Alex",
                     lastName: "Johnson",
+                    phone: "+60 12-345 6789",
+                    address: "123 Jalan Ampang, KL",
                     createdAt: now,
                     cashBalance: 75000,
                     verificationStatus: "verified",
+                    bankSettings: {
+                        holderName: "Alex Johnson",
+                        bankName: "Maybank",
+                        accountNumber: "123456789012"
+                    },
+                    assets: [
+                        { id: 'bitcoin', symbol: 'btc', name: 'Bitcoin', balance: 1.25 },
+                        { id: 'ethereum', symbol: 'eth', name: 'Ethereum', balance: 8.5 },
+                        { id: 'tether', symbol: 'usdt', name: 'Tether', balance: 12500 },
+                        { id: 'cardano', symbol: 'ada', name: 'Cardano', balance: 2500 },
+                        { id: 'solana', symbol: 'sol', name: 'Solana', balance: 45.5 }
+                    ],
+                    pendingTransactions: [
+                        {
+                            id: "TX" + Date.now() + "1",
+                            type: "withdrawal",
+                            amount: 500,
+                            currency: "USDT",
+                            date: now,
+                            status: "pending",
+                            details: "Withdrawal to bank"
+                        }
+                    ],
                     kycData: {
                         firstName: "Alex",
                         lastName: "Johnson",
@@ -937,9 +1161,22 @@
                     name: "Sarah Tan",
                     firstName: "Sarah",
                     lastName: "Tan",
+                    phone: "+60 16-789 0123",
+                    address: "45 Jalan SS2, PJ",
                     createdAt: now,
                     cashBalance: 25000,
                     verificationStatus: "pending",
+                    bankSettings: {
+                        holderName: "Sarah Tan",
+                        bankName: "CIMB Bank",
+                        accountNumber: "8601234567"
+                    },
+                    assets: [
+                        { id: 'bitcoin', symbol: 'btc', name: 'Bitcoin', balance: 0.15 },
+                        { id: 'ethereum', symbol: 'eth', name: 'Ethereum', balance: 2.3 },
+                        { id: 'tether', symbol: 'usdt', name: 'Tether', balance: 5000 }
+                    ],
+                    pendingTransactions: [],
                     kycData: {
                         firstName: "Sarah",
                         lastName: "Tan",
@@ -947,61 +1184,81 @@
                         idNumber: "920823-08-5678",
                         submittedAt: now
                     }
-                },
-                "mike@example.com": {
-                    email: "mike@example.com",
-                    name: "Mike Chen",
-                    firstName: "Mike",
-                    lastName: "Chen",
-                    createdAt: now,
-                    cashBalance: 120000,
-                    verificationStatus: "pending",
-                    kycData: {
-                        firstName: "Mike",
-                        lastName: "Chen",
-                        documentType: "Driver License",
-                        idNumber: "D1234567",
-                        submittedAt: now
-                    }
                 }
             };
         }
 
-        // ==================== 数据加载和UI更新 ====================
+        // ==================== DATA LOADING ====================
         function loadAllData() {
             const usersData = localStorage.getItem('cryptoWallet_users');
             allUsers = usersData ? JSON.parse(usersData) : {};
             
+            // Rebuild transactions list
+            allTransactions = [];
+            Object.entries(allUsers).forEach(([email, user]) => {
+                if (user.pendingTransactions) {
+                    user.pendingTransactions.forEach(tx => {
+                        allTransactions.push({
+                            ...tx,
+                            userEmail: email,
+                            userName: user.name || email
+                        });
+                    });
+                }
+            });
+            
             updateDashboard();
             updateUsersTable();
             updateKycTable();
+            updateTransactionsTable();
             updateBadges();
         }
 
         function updateBadges() {
             const pendingKyc = Object.values(allUsers).filter(u => u.verificationStatus === 'pending').length;
+            const pendingTx = allTransactions.filter(t => t.status === 'pending').length;
+            
             document.getElementById('pendingKycBadge').textContent = pendingKyc;
             document.getElementById('pendingUsersBadge').textContent = pendingKyc;
+            document.getElementById('pendingTxBadge').textContent = pendingTx;
         }
 
         function updateDashboard() {
             const users = Object.values(allUsers);
-            document.getElementById('totalUsers').textContent = users.length;
-            document.getElementById('pendingKycCount').textContent = users.filter(u => u.verificationStatus === 'pending').length;
-            document.getElementById('verifiedUsers').textContent = users.filter(u => u.verificationStatus === 'verified').length;
-            document.getElementById('totalBalance').textContent = '$' + users.reduce((sum, u) => sum + (u.cashBalance || 0), 0).toLocaleString();
+            const pendingKyc = users.filter(u => u.verificationStatus === 'pending').length;
+            const pendingTx = allTransactions.filter(t => t.status === 'pending').length;
+            const totalBalance = users.reduce((sum, u) => sum + (u.cashBalance || 0), 0);
             
-            // 最近用户
-            const recentHtml = users.slice(-3).reverse().map(user => `
+            document.getElementById('totalUsers').textContent = users.length;
+            document.getElementById('pendingKycCount').textContent = pendingKyc;
+            document.getElementById('pendingTxCount').textContent = pendingTx;
+            document.getElementById('totalBalance').textContent = '$' + totalBalance.toLocaleString();
+            
+            // Recent users
+            const recentHtml = users.slice(-5).reverse().map(user => `
                 <tr>
                     <td>${user.name || user.email.split('@')[0]}</td>
                     <td>${user.email}</td>
-                    <td>${new Date(user.createdAt).toLocaleDateString()}</td>
+                    <td>${new Date(user.createdAt || Date.now()).toLocaleDateString()}</td>
                     <td><span class="badge ${user.verificationStatus === 'verified' ? 'success' : 'warning'}">${user.verificationStatus}</span></td>
                     <td>$${(user.cashBalance || 0).toLocaleString()}</td>
+                    <td><button class="action-btn edit" onclick="openEditUserModal('${user.email}')">Edit</button></td>
                 </tr>
             `).join('');
-            document.getElementById('recentUsersTable').innerHTML = recentHtml || '<tr><td colspan="5">No users</td></tr>';
+            document.getElementById('recentUsersTable').innerHTML = recentHtml || '<tr><td colspan="6">No users</td></tr>';
+            
+            // Recent transactions
+            const recentTxHtml = allTransactions.slice(-5).reverse().map(tx => `
+                <tr>
+                    <td>${tx.id || 'TX' + Math.floor(Math.random()*10000)}</td>
+                    <td>${tx.userName || tx.userEmail}</td>
+                    <td>${tx.type || 'transaction'}</td>
+                    <td>${tx.amount || 0} ${tx.currency || ''}</td>
+                    <td>${new Date(tx.date || Date.now()).toLocaleDateString()}</td>
+                    <td><span class="badge ${tx.status === 'completed' ? 'success' : 'warning'}">${tx.status || 'pending'}</span></td>
+                </tr>
+            `).join('');
+            document.getElementById('recentTransactionsTable').innerHTML = recentTxHtml || '<tr><td colspan="6">No transactions</td></tr>';
         }
 
         function updateUsersTable() {
@@ -1010,7 +1267,10 @@
             
             let filtered = Object.values(allUsers);
             if (search) {
-                filtered = filtered.filter(u => u.email.toLowerCase().includes(search) || (u.name && u.name.toLowerCase().includes(search)));
+                filtered = filtered.filter(u => 
+                    u.email.toLowerCase().includes(search) || 
+                    (u.name && u.name.toLowerCase().includes(search))
+                );
             }
             if (filter === 'verified') filtered = filtered.filter(u => u.verificationStatus === 'verified');
             if (filter === 'pending') filtered = filtered.filter(u => u.verificationStatus === 'pending');
@@ -1019,11 +1279,14 @@
                 <tr>
                     <td>${user.name || user.email.split('@')[0]}</td>
                     <td>${user.email}</td>
-                    <td>${new Date(user.createdAt).toLocaleDateString()}</td>
+                    <td>${new Date(user.createdAt || Date.now()).toLocaleDateString()}</td>
                     <td><span class="badge ${user.verificationStatus === 'verified' ? 'success' : 'warning'}">${user.verificationStatus}</span></td>
                     <td>$${(user.cashBalance || 0).toLocaleString()}</td>
                     <td>
-                        ${user.kycData ? `<button class="action-btn edit" onclick="openKycModal('${user.email}')">View KYC</button>` : ''}
+                        <div class="action-buttons">
+                            <button class="action-btn edit" onclick="openEditUserModal('${user.email}')">Edit</button>
+                            ${user.kycData ? `<button class="action-btn edit" onclick="openKycModal('${user.email}')">KYC</button>` : ''}
+                        </div>
                     </td>
                 </tr>
             `).join('');
@@ -1039,16 +1302,18 @@
             const html = filtered.map(user => `
                 <tr>
                     <td>${user.email}</td>
-                    <td>${user.kycData.firstName} ${user.kycData.lastName}</td>
-                    <td>${user.kycData.documentType}</td>
-                    <td>${new Date(user.kycData.submittedAt).toLocaleDateString()}</td>
+                    <td>${user.kycData.firstName || ''} ${user.kycData.lastName || ''}</td>
+                    <td>${user.kycData.documentType || 'N/A'}</td>
+                    <td>${new Date(user.kycData.submittedAt || Date.now()).toLocaleDateString()}</td>
                     <td><span class="badge ${user.verificationStatus === 'verified' ? 'success' : 'warning'}">${user.verificationStatus}</span></td>
                     <td>
-                        <button class="action-btn edit" onclick="openKycModal('${user.email}')">View</button>
-                        ${user.verificationStatus === 'pending' ? `
-                            <button class="action-btn approve" onclick="approveKyc('${user.email}')">Approve</button>
-                            <button class="action-btn reject" onclick="rejectKyc('${user.email}')">Reject</button>
-                        ` : ''}
+                        <div class="action-buttons">
+                            <button class="action-btn edit" onclick="openKycModal('${user.email}')">View</button>
+                            ${user.verificationStatus === 'pending' ? `
+                                <button class="action-btn approve" onclick="approveKyc('${user.email}')">Approve</button>
+                                <button class="action-btn reject" onclick="rejectKyc('${user.email}')">Reject</button>
+                            ` : ''}
+                        </div>
                     </td>
                 </tr>
             `).join('');
@@ -1056,18 +1321,145 @@
             document.getElementById('kycTableBody').innerHTML = html || '<tr><td colspan="6">No KYC submissions</td></tr>';
         }
 
-        // ==================== KYC操作 ====================
+        function updateTransactionsTable() {
+            const filter = document.getElementById('txFilter')?.value || 'pending';
+            let filtered = allTransactions;
+            if (filter === 'pending') filtered = allTransactions.filter(t => t.status === 'pending');
+            
+            const html = filtered.map(tx => `
+                <tr>
+                    <td>${tx.id || 'TX' + Math.floor(Math.random()*10000)}</td>
+                    <td>${tx.userName || tx.userEmail}</td>
+                    <td>${tx.type || 'transaction'}</td>
+                    <td>${tx.amount || 0} ${tx.currency || ''}</td>
+                    <td>${new Date(tx.date || Date.now()).toLocaleDateString()}</td>
+                    <td><span class="badge ${tx.status === 'completed' ? 'success' : 'warning'}">${tx.status || 'pending'}</span></td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="action-btn edit" onclick="openTransactionModal('${tx.id}')">View</button>
+                            ${tx.status === 'pending' ? `
+                                <button class="action-btn approve" onclick="approveTransaction('${tx.id}')">Approve</button>
+                                <button class="action-btn reject" onclick="rejectTransaction('${tx.id}')">Reject</button>
+                            ` : ''}
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+            
+            document.getElementById('transactionsTableBody').innerHTML = html || '<tr><td colspan="7">No transactions</td></tr>';
+        }
+
+        // ==================== USER EDIT FUNCTIONS (Full Control) ====================
+        function openEditUserModal(email) {
+            const user = allUsers[email];
+            if (!user) return;
+            
+            currentEditEmail = email;
+            document.getElementById('editUserEmail').textContent = email;
+            
+            // Basic info
+            document.getElementById('editName').value = user.name || '';
+            document.getElementById('editPhone').value = user.phone || '';
+            document.getElementById('editAddress').value = user.address || '';
+            document.getElementById('editCashBalance').value = user.cashBalance || 0;
+            document.getElementById('editKycStatus').value = user.verificationStatus || 'pending';
+            
+            // Bank settings
+            if (user.bankSettings) {
+                document.getElementById('editBankName').value = user.bankSettings.bankName || '';
+                document.getElementById('editBankAccount').value = user.bankSettings.accountNumber || '';
+                document.getElementById('editBankHolder').value = user.bankSettings.holderName || '';
+            } else {
+                document.getElementById('editBankName').value = '';
+                document.getElementById('editBankAccount').value = '';
+                document.getElementById('editBankHolder').value = '';
+            }
+            
+            // Assets
+            const assetsContainer = document.getElementById('editAssetsContainer');
+            assetsContainer.innerHTML = '';
+            
+            const assets = user.assets || DEFAULT_ASSETS;
+            assets.forEach(asset => {
+                const row = document.createElement('div');
+                row.className = 'asset-row';
+                row.innerHTML = `
+                    <span style="min-width: 80px;">${asset.name}:</span>
+                    <input type="number" id="asset_${asset.id}" value="${asset.balance || 0}" step="0.000001" class="filter-input" placeholder="${asset.symbol}">
+                `;
+                assetsContainer.appendChild(row);
+            });
+            
+            document.getElementById('userEditModal').classList.add('active');
+        }
+
+        document.getElementById('saveUserChanges').addEventListener('click', function() {
+            if (!currentEditEmail) return;
+            
+            const user = allUsers[currentEditEmail];
+            if (!user) return;
+            
+            // Save basic info
+            user.name = document.getElementById('editName').value;
+            user.phone = document.getElementById('editPhone').value;
+            user.address = document.getElementById('editAddress').value;
+            user.cashBalance = parseFloat(document.getElementById('editCashBalance').value) || 0;
+            
+            // Save KYC status
+            const oldStatus = user.verificationStatus;
+            user.verificationStatus = document.getElementById('editKycStatus').value;
+            
+            // Save bank settings
+            if (!user.bankSettings) user.bankSettings = {};
+            user.bankSettings.bankName = document.getElementById('editBankName').value;
+            user.bankSettings.accountNumber = document.getElementById('editBankAccount').value;
+            user.bankSettings.holderName = document.getElementById('editBankHolder').value;
+            
+            // Save assets
+            if (!user.assets) user.assets = JSON.parse(JSON.stringify(DEFAULT_ASSETS));
+            user.assets.forEach(asset => {
+                const input = document.getElementById(`asset_${asset.id}`);
+                if (input) {
+                    asset.balance = parseFloat(input.value) || 0;
+                }
+            });
+            
+            // Sync with current user session if online
+            const currentUser = JSON.parse(localStorage.getItem('cryptoWallet_currentUser') || '{}');
+            if (currentUser.email === currentEditEmail) {
+                currentUser.name = user.name;
+                currentUser.phone = user.phone;
+                currentUser.address = user.address;
+                currentUser.cashBalance = user.cashBalance;
+                currentUser.verificationStatus = user.verificationStatus;
+                currentUser.bankSettings = user.bankSettings;
+                currentUser.assets = user.assets;
+                localStorage.setItem('cryptoWallet_currentUser', JSON.stringify(currentUser));
+            }
+            
+            localStorage.setItem('cryptoWallet_users', JSON.stringify(allUsers));
+            localStorage.setItem('cryptoWallet_kyc_update', Date.now().toString());
+            
+            loadAllData();
+            showToast('User data updated successfully', 'success');
+            closeModal('userEditModal');
+        });
+
+        // ==================== KYC FUNCTIONS ====================
         function openKycModal(email) {
             const user = allUsers[email];
             if (!user || !user.kycData) return;
             
             currentKycEmail = email;
+            const kyc = user.kycData;
+            
             document.getElementById('kycModalBody').innerHTML = `
-                <div><strong>Name:</strong> ${user.kycData.firstName} ${user.kycData.lastName}</div>
+                <div><strong>Name:</strong> ${kyc.firstName || ''} ${kyc.lastName || ''}</div>
                 <div><strong>Email:</strong> ${user.email}</div>
-                <div><strong>ID Type:</strong> ${user.kycData.documentType}</div>
-                <div><strong>ID Number:</strong> ${user.kycData.idNumber}</div>
-                <div><strong>Submitted:</strong> ${new Date(user.kycData.submittedAt).toLocaleString()}</div>
+                <div><strong>ID Type:</strong> ${kyc.documentType || 'N/A'}</div>
+                <div><strong>ID Number:</strong> ${kyc.idNumber || 'N/A'}</div>
+                <div><strong>Address:</strong> ${kyc.address || user.address || 'N/A'}</div>
+                <div><strong>Submitted:</strong> ${new Date(kyc.submittedAt || Date.now()).toLocaleString()}</div>
             `;
             document.getElementById('kycModal').classList.add('active');
         }
@@ -1080,7 +1472,6 @@
             if (user) {
                 user.verificationStatus = 'verified';
                 
-                // 同步在线用户
                 const currentUser = JSON.parse(localStorage.getItem('cryptoWallet_currentUser') || '{}');
                 if (currentUser.email === targetEmail) {
                     currentUser.verificationStatus = 'verified';
@@ -1117,7 +1508,79 @@
             closeModal('kycModal');
         }
 
-        // ==================== 银行设置 ====================
+        // ==================== TRANSACTION FUNCTIONS ====================
+        function openTransactionModal(txId) {
+            const tx = allTransactions.find(t => t.id === txId);
+            if (!tx) return;
+            
+            currentTxId = txId;
+            document.getElementById('transactionModalBody').innerHTML = `
+                <div><strong>ID:</strong> ${tx.id}</div>
+                <div><strong>User:</strong> ${tx.userName || tx.userEmail}</div>
+                <div><strong>Type:</strong> ${tx.type}</div>
+                <div><strong>Amount:</strong> ${tx.amount} ${tx.currency || ''}</div>
+                <div><strong>Date:</strong> ${new Date(tx.date).toLocaleString()}</div>
+                <div><strong>Details:</strong> ${tx.details || 'N/A'}</div>
+            `;
+            document.getElementById('transactionModal').classList.add('active');
+        }
+
+        function approveTransaction(txId) {
+            const id = txId || currentTxId;
+            if (!id || !confirm('Approve this transaction?')) return;
+            
+            // Find and update transaction
+            for (const email in allUsers) {
+                const user = allUsers[email];
+                if (user.pendingTransactions) {
+                    const txIndex = user.pendingTransactions.findIndex(t => t.id === id);
+                    if (txIndex !== -1) {
+                        user.pendingTransactions[txIndex].status = 'completed';
+                        break;
+                    }
+                }
+            }
+            
+            localStorage.setItem('cryptoWallet_users', JSON.stringify(allUsers));
+            loadAllData();
+            showToast('Transaction approved', 'success');
+            closeModal('transactionModal');
+        }
+
+        function rejectTransaction(txId) {
+            const id = txId || currentTxId;
+            if (!id || !confirm('Reject this transaction?')) return;
+            
+            for (const email in allUsers) {
+                const user = allUsers[email];
+                if (user.pendingTransactions) {
+                    const txIndex = user.pendingTransactions.findIndex(t => t.id === id);
+                    if (txIndex !== -1) {
+                        user.pendingTransactions.splice(txIndex, 1);
+                        break;
+                    }
+                }
+            }
+            
+            localStorage.setItem('cryptoWallet_users', JSON.stringify(allUsers));
+            loadAllData();
+            showToast('Transaction rejected', 'warning');
+            closeModal('transactionModal');
+        }
+
+        // ==================== BANK SETTINGS ====================
+        function loadBankSettings() {
+            const settings = JSON.parse(localStorage.getItem('cryptoWallet_bankSettings')) || {
+                bankName: 'Maybank',
+                accountNumber: '123456789012',
+                accountHolder: 'CryptoWallet Pro Sdn Bhd'
+            };
+            
+            document.getElementById('bankName').value = settings.bankName;
+            document.getElementById('bankAccountNumber').value = settings.accountNumber;
+            document.getElementById('bankAccountHolder').value = settings.accountHolder;
+        }
+
         document.getElementById('saveBankSettings').addEventListener('click', function() {
             const settings = {
                 bankName: document.getElementById('bankName').value,
@@ -1128,7 +1591,7 @@
             showToast('Bank settings saved', 'success');
         });
 
-        // ==================== 导航 ====================
+        // ==================== NAVIGATION ====================
         document.querySelectorAll('.nav-item').forEach(item => {
             item.addEventListener('click', function() {
                 document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -1137,19 +1600,25 @@
                 const page = this.dataset.page;
                 document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
                 document.getElementById(`page-${page}`).classList.add('active');
-                document.getElementById('adminPageTitle').textContent = 
-                    page === 'dashboard' ? 'Dashboard' :
-                    page === 'users' ? 'User Management' :
-                    page === 'kyc' ? 'KYC Verification' : 'Bank Settings';
+                
+                const titles = {
+                    dashboard: 'Dashboard',
+                    users: 'User Management',
+                    kyc: 'KYC Verification',
+                    transactions: 'Transaction Management',
+                    bank: 'Bank Settings'
+                };
+                document.getElementById('adminPageTitle').textContent = titles[page] || 'Dashboard';
             });
         });
 
-        // ==================== 过滤器 ====================
+        // ==================== FILTERS ====================
         document.getElementById('userSearch')?.addEventListener('input', updateUsersTable);
         document.getElementById('userFilter')?.addEventListener('change', updateUsersTable);
         document.getElementById('kycFilter')?.addEventListener('change', updateKycTable);
+        document.getElementById('txFilter')?.addEventListener('change', updateTransactionsTable);
 
-        // ==================== 刷新和登出 ====================
+        // ==================== REFRESH AND LOGOUT ====================
         document.getElementById('refreshData').addEventListener('click', () => {
             loadAllData();
             showToast('Data refreshed', 'success');
@@ -1162,16 +1631,19 @@
             showToast('Logged out', 'info');
         });
 
-        // ==================== 工具函数 ====================
+        // ==================== UTILITY FUNCTIONS ====================
         function closeModal(id) {
             document.getElementById(id).classList.remove('active');
+            currentEditEmail = null;
             currentKycEmail = null;
+            currentTxId = null;
         }
 
         function showToast(msg, type = 'info') {
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
-            toast.innerHTML = `<span>${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}</span><span>${msg}</span>`;
+            const icon = type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️';
+            toast.innerHTML = `<span>${icon}</span><span>${msg}</span>`;
             document.getElementById('toastContainer').appendChild(toast);
             setTimeout(() => {
                 toast.style.opacity = '0';
@@ -1179,10 +1651,14 @@
             }, 3000);
         }
 
-        // 全局函数
+        // Global functions
+        window.openEditUserModal = openEditUserModal;
         window.openKycModal = openKycModal;
         window.approveKyc = approveKyc;
         window.rejectKyc = rejectKyc;
+        window.openTransactionModal = openTransactionModal;
+        window.approveTransaction = approveTransaction;
+        window.rejectTransaction = rejectTransaction;
         window.closeModal = closeModal;
     </script>
 </body>
