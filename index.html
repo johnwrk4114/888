@@ -438,26 +438,48 @@
                 return;
             }
             
-            // Create or get user data
+            // Create user data with consistent structure
             const userData = {
                 email: email,
                 name: email.split('@')[0],
+                firstName: email.split('@')[0],
+                lastName: 'User',
+                phone: '',
+                address: '',
+                city: '',
+                country: '',
                 createdAt: new Date().toISOString(),
                 lastLogin: new Date().toISOString(),
                 cashBalance: 50000.00,
+                verificationStatus: 'pending', // pending, verified, rejected
+                kycData: null,
+                bankSettings: {
+                    holderName: '',
+                    bankName: '',
+                    accountNumber: ''
+                },
                 assets: [
-                    { id: 'bitcoin', symbol: 'btc', name: 'Bitcoin', balance: 0.8245, price: 0 },
-                    { id: 'ethereum', symbol: 'eth', name: 'Ethereum', balance: 4.28, price: 0 },
+                    { id: 'bitcoin', symbol: 'btc', name: 'Bitcoin', balance: 0.8245, price: 58464.16 },
+                    { id: 'ethereum', symbol: 'eth', name: 'Ethereum', balance: 4.28, price: 3250.45 },
                     { id: 'tether', symbol: 'usdt', name: 'Tether', balance: 5820.40, price: 1.00 },
-                    { id: 'cardano', symbol: 'ada', name: 'Cardano', balance: 1500.50, price: 0 },
-                    { id: 'solana', symbol: 'sol', name: 'Solana', balance: 25.75, price: 0 },
-                    { id: 'ripple', symbol: 'xrp', name: 'XRP', balance: 1200.80, price: 0 }
+                    { id: 'cardano', symbol: 'ada', name: 'Cardano', balance: 1500.50, price: 0.45 },
+                    { id: 'solana', symbol: 'sol', name: 'Solana', balance: 25.75, price: 142.30 },
+                    { id: 'ripple', symbol: 'xrp', name: 'XRP', balance: 1200.80, price: 0.62 }
                 ],
                 pendingTransactions: [],
-                recentActivities: []
+                recentActivities: [
+                    {
+                        type: 'login',
+                        title: 'Account Login',
+                        description: 'Logged in from new device',
+                        time: 'Just now',
+                        icon: 'sign-in-alt',
+                        color: 'info'
+                    }
+                ]
             };
             
-            // Save user data to localStorage
+            // Save current user session
             localStorage.setItem('cryptoWallet_currentUser', JSON.stringify(userData));
             
             // Get all users from storage
@@ -466,12 +488,21 @@
             // Update or add user
             allUsers[email] = {
                 ...userData,
-                password: password, // Note: In real app, NEVER store plain passwords
+                password: password,
                 isActive: true,
                 loginCount: (allUsers[email]?.loginCount || 0) + 1
             };
             
             localStorage.setItem('cryptoWallet_users', JSON.stringify(allUsers));
+            
+            // Initialize bank settings if not exists
+            if (!localStorage.getItem('cryptoWallet_bankSettings')) {
+                localStorage.setItem('cryptoWallet_bankSettings', JSON.stringify({
+                    bankName: 'Maybank',
+                    accountNumber: '123456789012',
+                    accountHolder: 'CryptoWallet Pro Sdn Bhd'
+                }));
+            }
             
             // Simulate login process
             const loginBtn = this.querySelector('.login-button');
@@ -480,13 +511,13 @@
             loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Authenticating...';
             loginBtn.disabled = true;
             
-            // Redirect to dashboard after delay
+            // Redirect to dashboard
             setTimeout(() => {
                 window.location.href = 'app.html#dashboard';
             }, 1000);
         });
 
-        // Signup link
+        // Signup link - fill test credentials
         document.getElementById('signupLink').addEventListener('click', function(e) {
             e.preventDefault();
             document.getElementById('email').value = 'user' + Math.floor(Math.random() * 1000) + '@example.com';
@@ -498,15 +529,8 @@
         document.querySelectorAll('.social-button').forEach(button => {
             button.addEventListener('click', function() {
                 const type = this.classList.contains('google') ? 'Google' : 'MetaMask';
-                alert(`${type} authentication will be implemented in Phase 3`);
+                alert(`${type} authentication demo - use email login instead`);
             });
-        });
-
-        // Auto-fill test user on page load (for demo)
-        window.addEventListener('DOMContentLoaded', function() {
-            // Uncomment for testing
-            // document.getElementById('email').value = 'test@cryptowallet.com';
-            // document.getElementById('password').value = 'test123';
         });
     </script>
 </body>
