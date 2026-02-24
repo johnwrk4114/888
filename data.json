@@ -1,0 +1,284 @@
+{
+  "cryptoWallet_users": {
+    "alex@example.com": {
+      "email": "alex@example.com",
+      "name": "Alex Johnson",
+      "firstName": "Alex",
+      "lastName": "Johnson",
+      "phone": "+60 12-345 6789",
+      "address": "123 Jalan Ampang",
+      "city": "Kuala Lumpur",
+      "country": "Malaysia",
+      "password": "password123",
+      "createdAt": "2024-01-15T10:30:00.000Z",
+      "lastLogin": "2024-01-20T14:25:00.000Z",
+      "cashBalance": 75000.00,
+      "verificationStatus": "verified",
+      "kycData": {
+        "firstName": "Alex",
+        "lastName": "Johnson",
+        "address": "123 Jalan Ampang",
+        "city": "Kuala Lumpur",
+        "state": "",
+        "postalCode": "50450",
+        "country": "Malaysia",
+        "email": "alex@example.com",
+        "phone": "+60 12-345 6789",
+        "dob": "1990-05-15",
+        "nationality": "Malaysian",
+        "idNumber": "900515-10-1234",
+        "documentType": "nric",
+        "files": {
+          "front": "nric_front.jpg",
+          "back": "nric_back.jpg"
+        },
+        "submittedAt": "2024-01-16T09:15:00.000Z",
+        "status": "verified"
+      },
+      "bankSettings": {
+        "holderName": "Alex Johnson",
+        "bankName": "Maybank",
+        "accountNumber": "123456789012"
+      },
+      "assets": [
+        { "id": "bitcoin", "symbol": "btc", "name": "Bitcoin", "balance": 1.25, "price": 58464.16 },
+        { "id": "ethereum", "symbol": "eth", "name": "Ethereum", "balance": 8.5, "price": 3250.45 },
+        { "id": "tether", "symbol": "usdt", "name": "Tether", "balance": 12500.00, "price": 1.00 },
+        { "id": "cardano", "symbol": "ada", "name": "Cardano", "balance": 2500.00, "price": 0.45 },
+        { "id": "solana", "symbol": "sol", "name": "Solana", "balance": 45.5, "price": 142.30 },
+        { "id": "ripple", "symbol": "xrp", "name": "XRP", "balance": 1800.00, "price": 0.62 }
+      ],
+      "pendingTransactions": [
+        {
+          "id": "TX2024012001",
+          "type": "withdrawal",
+          "amount": 500.00,
+          "currency": "USD",
+          "date": "2024-01-20T11:20:00.000Z",
+          "status": "pending",
+          "details": "Bank withdrawal to Maybank"
+        }
+      ],
+      "recentActivities": [
+        {
+          "type": "login",
+          "title": "Account Login",
+          "description": "Logged in from Chrome on Windows",
+          "time": "2024-01-20T14:25:00.000Z",
+          "icon": "sign-in-alt",
+          "color": "info"
+        },
+        {
+          "type": "deposit",
+          "title": "Deposit Received",
+          "description": "Deposit of 0.05 BTC confirmed",
+          "time": "2024-01-19T09:30:00.000Z",
+          "icon": "arrow-down",
+          "color": "success",
+          "amount": "+0.05 BTC"
+        }
+      ],
+      "isActive": true,
+      "loginCount": 45
+    },
+    "sarah@example.com": {
+      "email": "sarah@example.com",
+      "name": "Sarah Tan",
+      "firstName": "Sarah",
+      "lastName": "Tan",
+      "phone": "+60 16-789 0123",
+      "address": "45 Jalan SS2/72",
+      "city": "Petaling Jaya",
+      "country": "Malaysia",
+      "password": "password123",
+      "createdAt": "2024-01-18T15:45:00.000Z",
+      "lastLogin": "2024-01-20T09:10:00.000Z",
+      "cashBalance": 25000.00,
+      "verificationStatus": "pending",
+      "kycData": {
+        "firstName": "Sarah",
+        "lastName": "Tan",
+        "address": "45 Jalan SS2/72",
+        "city": "Petaling Jaya",
+        "state": "Selangor",
+        "postalCode": "47300",
+        "country": "Malaysia",
+        "email": "sarah@example.com",
+        "phone": "+60 16-789 0123",
+        "dob": "1992-08-23",
+        "nationality": "Malaysian",
+        "idNumber": "920823-08-5678",
+        "documentType": "passport",
+        "files": {
+          "front": "passport_front.jpg",
+          "back": "passport_back.jpg"
+        },
+        "submittedAt": "2024-01-19T11:30:00.000Z",
+        "status": "pending"
+      },
+      "bankSettings": {
+        "holderName": "Sarah Tan",
+        "bankName": "CIMB Bank",
+        "accountNumber": "8601234567"
+      },
+      "assets": [
+        { "id": "bitcoin", "symbol": "btc", "name": "Bitcoin", "balance": 0.15, "price": 58464.16 },
+        { "id": "ethereum", "symbol": "eth", "name": "Ethereum", "balance": 2.3, "price": 3250.45 },
+        { "id": "tether", "symbol": "usdt", "name": "Tether", "balance": 5000.00, "price": 1.00 }
+      ],
+      "pendingTransactions": [],
+      "recentActivities": [
+        {
+          "type": "signup",
+          "title": "Account Created",
+          "description": "Welcome to CryptoWallet Pro!",
+          "time": "2024-01-18T15:45:00.000Z",
+          "icon": "user-plus",
+          "color": "success"
+        }
+      ],
+      "isActive": true,
+      "loginCount": 3
+    },
+    "mike@example.com": {
+      "email": "mike@example.com",
+      "name": "Mike Chen",
+      "firstName": "Mike",
+      "lastName": "Chen",
+      "phone": "+60 14-567 8901",
+      "address": "78 Jalan Ipoh",
+      "city": "Ipoh",
+      "country": "Malaysia",
+      "password": "password123",
+      "createdAt": "2024-01-10T08:20:00.000Z",
+      "lastLogin": "2024-01-19T16:50:00.000Z",
+      "cashBalance": 120000.00,
+      "verificationStatus": "verified",
+      "kycData": {
+        "firstName": "Mike",
+        "lastName": "Chen",
+        "address": "78 Jalan Ipoh",
+        "city": "Ipoh",
+        "state": "Perak",
+        "postalCode": "30300",
+        "country": "Malaysia",
+        "email": "mike@example.com",
+        "phone": "+60 14-567 8901",
+        "dob": "1985-12-03",
+        "nationality": "Malaysian",
+        "idNumber": "851203-07-1234",
+        "documentType": "driver-license",
+        "files": {
+          "front": "license_front.jpg",
+          "back": "license_back.jpg"
+        },
+        "submittedAt": "2024-01-11T10:15:00.000Z",
+        "status": "verified"
+      },
+      "bankSettings": {
+        "holderName": "Mike Chen",
+        "bankName": "Public Bank",
+        "accountNumber": "4781234567"
+      },
+      "assets": [
+        { "id": "bitcoin", "symbol": "btc", "name": "Bitcoin", "balance": 2.5, "price": 58464.16 },
+        { "id": "ethereum", "symbol": "eth", "name": "Ethereum", "balance": 15.0, "price": 3250.45 },
+        { "id": "tether", "symbol": "usdt", "name": "Tether", "balance": 25000.00, "price": 1.00 },
+        { "id": "solana", "symbol": "sol", "name": "Solana", "balance": 120.0, "price": 142.30 }
+      ],
+      "pendingTransactions": [],
+      "recentActivities": [
+        {
+          "type": "trade",
+          "title": "Trade Completed",
+          "description": "Swapped 0.5 BTC to ETH",
+          "time": "2024-01-18T14:30:00.000Z",
+          "icon": "exchange-alt",
+          "color": "success"
+        }
+      ],
+      "isActive": true,
+      "loginCount": 28
+    },
+    "lisa@example.com": {
+      "email": "lisa@example.com",
+      "name": "Lisa Wong",
+      "firstName": "Lisa",
+      "lastName": "Wong",
+      "phone": "+60 19-234 5678",
+      "address": "23 Jalan Pantai",
+      "city": "Penang",
+      "country": "Malaysia",
+      "password": "password123",
+      "createdAt": "2024-01-05T13:10:00.000Z",
+      "lastLogin": "2024-01-20T10:30:00.000Z",
+      "cashBalance": 45000.00,
+      "verificationStatus": "verified",
+      "kycData": {
+        "firstName": "Lisa",
+        "lastName": "Wong",
+        "address": "23 Jalan Pantai",
+        "city": "Penang",
+        "state": "Penang",
+        "postalCode": "10250",
+        "country": "Malaysia",
+        "email": "lisa@example.com",
+        "phone": "+60 19-234 5678",
+        "dob": "1988-03-17",
+        "nationality": "Malaysian",
+        "idNumber": "880317-07-5678",
+        "documentType": "nric",
+        "files": {
+          "front": "nric_front.jpg",
+          "back": "nric_back.jpg"
+        },
+        "submittedAt": "2024-01-06T09:45:00.000Z",
+        "status": "verified"
+      },
+      "bankSettings": {
+        "holderName": "Lisa Wong",
+        "bankName": "RHB Bank",
+        "accountNumber": "2123456789"
+      },
+      "assets": [
+        { "id": "ethereum", "symbol": "eth", "name": "Ethereum", "balance": 12.5, "price": 3250.45 },
+        { "id": "tether", "symbol": "usdt", "name": "Tether", "balance": 15000.00, "price": 1.00 },
+        { "id": "cardano", "symbol": "ada", "name": "Cardano", "balance": 5000.00, "price": 0.45 }
+      ],
+      "pendingTransactions": [
+        {
+          "id": "TX2024012002",
+          "type": "deposit",
+          "amount": 2000.00,
+          "currency": "USDT",
+          "date": "2024-01-20T09:15:00.000Z",
+          "status": "pending",
+          "details": "USDT deposit from external wallet"
+        }
+      ],
+      "recentActivities": [
+        {
+          "type": "withdrawal",
+          "title": "Withdrawal Requested",
+          "description": "Withdrawal of 1000 USDT to bank",
+          "time": "2024-01-19T11:20:00.000Z",
+          "icon": "arrow-up",
+          "color": "warning",
+          "amount": "-1000 USDT"
+        }
+      ],
+      "isActive": true,
+      "loginCount": 35
+    }
+  },
+  "cryptoWallet_bankSettings": {
+    "bankName": "Maybank",
+    "accountNumber": "123456789012",
+    "accountHolder": "CryptoWallet Pro Sdn Bhd"
+  },
+  "cryptoWallet_settings": {
+    "maintenanceMode": "off",
+    "version": "1.0.0",
+    "lastUpdated": "2024-01-20T00:00:00.000Z"
+  }
+}
